@@ -1,7 +1,7 @@
-#include <cstdio>
+#include <iostream>
 
 int main()
 {
-    printf("hello from A03_201802162!\n");
+    std::cout << "Hello, World!" << std::endl;
     return 0;
 }
