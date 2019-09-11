@@ -31,7 +31,7 @@ public class W02_03_Stair {
 		n = inputStream.nextInt();
 		m = inputStream.nextInt();
 
-		System.out.printf("%d", new Stair().Jump(n, m));
+		System.out.printf("%d\n", new Stair().Jump(n, m));
 
 		inputStream.close();
 	}
