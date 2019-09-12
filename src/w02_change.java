@@ -1,36 +1,44 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 class POS {
-	public int change(int[] coins, int cost) {
+	public int change(List<Integer> coins, int charge) {
+		// Exception
+		if (charge < 0)
+			throw new IllegalArgumentException();
+
 		// Escape
-		if (cost == 0)
+		if (charge == 0)
 			return 0;
+		if (coins.size() == 0)
+			return -1;
 
 		// Initialize
-		int[] template = { 1, 10, 50, 100, 500 };
-		int count = 0, output = 0;
+		ArrayList<Integer> list;
+		int preview = 0;
+		int minimum = -1;
 
-		// Recursive Algorithm
-		for (int l = coins.length - 1; l >= 0; l--) {
-			count = cost / template[l];
-			if (count != 0) {
-				if (coins[l] >= count) {
-					coins[l] = coins[l] - count;
-					cost = cost - (template[l] * count);
-					output = change(coins, cost);
-					if (output != -1)
-						return count + change(coins, cost);
-				} else if (coins[l] > 0) {
-					count = coins[l];
-					coins[l] = 0;
-					cost = cost - (count * template[l]);
-					output = change(coins, cost);
-					if (output != -1)
-						return count + change(coins, cost);
+		// Algorithm
+		for (int i = 0; i < coins.size(); i++) {
+			for (int j = 0; j <= charge / coins.get(i); j++) {
+				list = new ArrayList<Integer>();
+				list.addAll(coins);
+				list.remove(i);
+				preview = change(list, charge - (coins.get(i) * j));
+				if (preview == 0) {
+					if ((minimum == -1) || (minimum > j))
+						minimum = j;
+				} else if (preview != -1) {
+					if ((minimum == -1) || (minimum > (preview + j))) {
+						minimum = preview + j;
+					}
 				}
 			}
 		}
-		return -1;
+
+		// Return
+		return minimum;
 	}
 
 }
@@ -40,18 +48,17 @@ public class w02_change {
 	public static void main(String[] args) {
 		// Initialize
 		Scanner inputStream = new Scanner(System.in);
-		int count = 0, cost = 0;
-		int[] coins;
+		List<Integer> coins = new ArrayList<Integer>();
+		int count = 0, charge = 0;
 
 		// Input Value
 		count = inputStream.nextInt();
-		coins = new int[count];
-		for (int i = count - 1; i >= 0; i--)
-			coins[i] = inputStream.nextInt();
-		cost = inputStream.nextInt();
+		for (int loop = 0; loop < count; loop++)
+			coins.add(inputStream.nextInt());
+		charge = inputStream.nextInt();
 
 		// Output Value
-		System.out.printf("%d", new POS().change(coins, cost));
+		System.out.printf("%d", new POS().change(coins, charge));
 
 		// Finalize
 		inputStream.close();

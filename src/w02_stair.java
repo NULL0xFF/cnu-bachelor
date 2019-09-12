@@ -7,27 +7,25 @@ class Stair {
 	private HashMap<String, BigInteger> cache = new HashMap<String, BigInteger>();
 
 	public BigInteger Jump(int n, int m) {
-		// Escape
+		// Exception
 		if (n < 0)
 			throw new IllegalArgumentException();
+
+		// Escape
 		if (n == 0)
 			return BigInteger.ZERO;
 
 		// Check Cache
 		BigInteger cachedNumber = cache.get(String.format("%d-%d", n, m));
-		if (cachedNumber != null) {
-			// System.out.printf("GET: %d-%d, %s\n", n, m, cachedNumber.toString());
+		if (cachedNumber != null)
 			return cachedNumber;
-		} else {
-			// System.out.printf("GET: %d-%d, not found\n", n, m);
-		}
+
 		// Initialize
 		BigInteger preview = BigInteger.valueOf(-1);
 		BigInteger count = BigInteger.ZERO;
 
 		// Algorithm
 		for (int i = 1; (i <= m) && (i <= n); i++) {
-			// System.out.printf("CALL: %d-%d\n", n - i, m);
 			preview = this.Jump(n - i, m);
 			if (preview.compareTo(BigInteger.ZERO) == 0)
 				count = count.add(BigInteger.ONE);
@@ -36,7 +34,6 @@ class Stair {
 		}
 
 		// Save Cache
-		// System.out.printf("PUT: %d-%d, %s\n", n, m, count.toString());
 		cache.put(String.format("%d-%d", n, m), count);
 
 		// Return
@@ -51,11 +48,14 @@ public class w02_stair {
 		Scanner inputStream = new Scanner(System.in);
 		int n = 0, m = 0;
 
+		// Input
 		n = inputStream.nextInt();
 		m = inputStream.nextInt();
 
+		// Output
 		System.out.printf("%s\n", new Stair().Jump(n, m).toString());
 
+		// Finalize
 		inputStream.close();
 	}
 
