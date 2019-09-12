@@ -12,7 +12,7 @@ class Fibonacci {
 	}
 }
 
-public class W02_01_Fibonacci {
+public class w02_fibonacci {
 	public static void main(String[] args) {
 		// Initialize
 		Scanner inputStream = new Scanner(System.in);

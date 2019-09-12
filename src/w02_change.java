@@ -35,7 +35,7 @@ class POS {
 
 }
 
-public class W02_04_POS {
+public class w02_change {
 
 	public static void main(String[] args) {
 		// Initialize

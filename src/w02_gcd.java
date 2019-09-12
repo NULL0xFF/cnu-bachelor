@@ -8,7 +8,7 @@ class Euclid {
 	}
 }
 
-public class W02_02_Euclid {
+public class w02_gcd {
 	public static void main(String[] args) {
 		// Initialize
 		Scanner inputStream = new Scanner(System.in);
