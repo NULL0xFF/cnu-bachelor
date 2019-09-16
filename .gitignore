@@ -262,3 +262,6 @@ __pycache__/
 
 # Java
 /bin/
+
+# Visual Studio Code Config
+/.vscode/
