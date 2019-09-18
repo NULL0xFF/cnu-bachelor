@@ -1,15 +1,6 @@
 import java.util.Scanner;
 
-class Fibonacci {
-	public int fibonacci(int n) {
-		if (n <= 0)
-			return 0;
-		else if (n == 1)
-			return 1;
-		else {
-			return fibonacci(n - 1) + fibonacci(n - 2);
-		}
-	}
+class W02_Fibonacci {
 }
 
 public class w02_fibonacci {
@@ -22,9 +13,19 @@ public class w02_fibonacci {
 		n = inputStream.nextInt();
 
 		// Output Value
-		System.out.printf("%d\n", new Fibonacci().fibonacci(n));
+		System.out.printf("%d\n", new w02_fibonacci().fibonacci(n));
 
 		// Finalize
 		inputStream.close();
+	}
+
+	public int fibonacci(int n) {
+		if (n <= 0)
+			return 0;
+		else if (n == 1)
+			return 1;
+		else {
+			return fibonacci(n - 1) + fibonacci(n - 2);
+		}
 	}
 }

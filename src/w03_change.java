@@ -1,8 +1,12 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-class POS {
+class w03_POS {
+
+	private HashMap<String, Integer> cache = new HashMap<String, Integer>();
+
 	public int change(List<Integer> coins, int charge) {
 		// Exception
 		if (charge < 0)
@@ -25,7 +29,17 @@ class POS {
 				list = new ArrayList<Integer>();
 				list.addAll(coins);
 				list.remove(i);
-				preview = change(list, charge - (coins.get(i) * j));
+				// Check Cache
+				System.out.printf("GET\t%s\n", list.toString());
+				if (cache.get(String.format("%s-%d", list.toString(), charge)) != null) {
+					// Cache Found
+					System.out.printf("FOUND\t%s\n", String.format("%s-%d", list.toString(), charge));
+					preview = cache.get(String.format("%s-%d", list.toString(), charge));
+				} else {
+					// Cache Not Found
+					System.out.printf("NOT FOUND\t%s\n", String.format("%s-%d", list.toString(), charge));
+					preview = change(list, charge - (coins.get(i) * j));
+				}
 				if (preview == 0) {
 					if ((minimum == -1) || (minimum > j))
 						minimum = j;
@@ -37,14 +51,18 @@ class POS {
 			}
 		}
 
+		// Save Cache
+		cache.put(String.format("%s-%d", coins.toString(), charge), minimum);
+		System.out.printf("PUT\t%s | %d\n", coins.toString(),
+				cache.get(String.format("%s-%d", coins.toString(), charge)));
+
 		// Return
 		return minimum;
 	}
-	
 
 }
 
-public class w02_change {
+public class w03_change {
 
 	public static void main(String[] args) {
 		// Initialize
@@ -59,7 +77,7 @@ public class w02_change {
 		charge = inputStream.nextInt();
 
 		// Output Value
-		System.out.printf("%d", new POS().change(coins, charge));
+		System.out.printf("%d", new w03_POS().change(coins, charge));
 
 		// Finalize
 		inputStream.close();
