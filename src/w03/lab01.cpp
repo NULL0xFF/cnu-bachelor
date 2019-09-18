@@ -1,17 +1,16 @@
 #include <iostream>
 
-void code()
-{
-    return;
-}
 int main()
 {
-    char *rodata = "ABC";
+    // Initialize
+    static const char *rodata = "ABC";
     static int data = 0;
     static int bss;
     int *heap = new int(4);
     const int stack = 0;
-    std::cout << "code\t" << (void *)code << std::endl;
+
+    // Print
+    std::cout << "code\t" << (void *)main << std::endl;
     std::cout << "Rodata\t" << (void *)rodata << std::endl;
     std::cout << "data\t" << &data << std::endl;
     std::cout << "BSS\t" << &bss << std::endl;
@@ -21,4 +20,6 @@ int main()
     // Finalize
     delete heap;
     heap = nullptr;
+
+    return;
 }
