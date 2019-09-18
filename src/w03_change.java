@@ -1,86 +1,59 @@
-import java.util.ArrayList;
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 
-class w03_POS {
-
-	private HashMap<String, Integer> cache = new HashMap<String, Integer>();
-
-	public int change(List<Integer> coins, int charge) {
-		// Exception
-		if (charge < 0)
-			throw new IllegalArgumentException();
-
-		// Escape
-		if (charge == 0)
-			return 0;
-		if (coins.size() == 0)
-			return -1;
-
-		// Initialize
-		ArrayList<Integer> list;
-		int preview = 0;
-		int minimum = -1;
-
-		// Algorithm
-		for (int i = 0; i < coins.size(); i++) {
-			for (int j = 0; j <= charge / coins.get(i); j++) {
-				list = new ArrayList<Integer>();
-				list.addAll(coins);
-				list.remove(i);
-				// Check Cache
-				System.out.printf("GET\t%s\n", list.toString());
-				if (cache.get(String.format("%s-%d", list.toString(), charge)) != null) {
-					// Cache Found
-					System.out.printf("FOUND\t%s\n", String.format("%s-%d", list.toString(), charge));
-					preview = cache.get(String.format("%s-%d", list.toString(), charge));
-				} else {
-					// Cache Not Found
-					System.out.printf("NOT FOUND\t%s\n", String.format("%s-%d", list.toString(), charge));
-					preview = change(list, charge - (coins.get(i) * j));
-				}
-				if (preview == 0) {
-					if ((minimum == -1) || (minimum > j))
-						minimum = j;
-				} else if (preview != -1) {
-					if ((minimum == -1) || (minimum > (preview + j))) {
-						minimum = preview + j;
-					}
-				}
-			}
-		}
-
-		// Save Cache
-		cache.put(String.format("%s-%d", coins.toString(), charge), minimum);
-		System.out.printf("PUT\t%s | %d\n", coins.toString(),
-				cache.get(String.format("%s-%d", coins.toString(), charge)));
-
-		// Return
-		return minimum;
-	}
-
-}
-
 public class w03_change {
+
+	private static HashMap<String, BigInteger> cache = new HashMap<String, BigInteger>();
 
 	public static void main(String[] args) {
 		// Initialize
 		Scanner inputStream = new Scanner(System.in);
-		List<Integer> coins = new ArrayList<Integer>();
-		int count = 0, charge = 0;
+		int[] coins;
+		int count = 0, change = 0;
 
 		// Input Value
 		count = inputStream.nextInt();
+		coins = new int[count];
 		for (int loop = 0; loop < count; loop++)
-			coins.add(inputStream.nextInt());
-		charge = inputStream.nextInt();
+			coins[loop] = inputStream.nextInt();
+		change = inputStream.nextInt();
 
 		// Output Value
-		System.out.printf("%d", new w03_POS().change(coins, charge));
+		System.out.printf("%s\n", pos(coins, count, change));
 
 		// Finalize
 		inputStream.close();
+	}
+
+	public static BigInteger pos(int[] coins, int count, int change) {
+		// Escape
+		if (change == 0)
+			return BigInteger.ZERO;
+
+		// Cache Check
+		BigInteger cachedNumber = cache.get(String.format("%s | %d | %d", Arrays.toString(coins), count, change));
+		if (cachedNumber != null)
+			return cachedNumber;
+
+		// Initialize
+		BigInteger minimum = new BigInteger(Integer.toString(Integer.MAX_VALUE));
+
+		// Algorithm
+		for (int index = 0; index < count; index++)
+			if (coins[index] <= change) {
+				BigInteger subMinimum = pos(coins, count, change - coins[index]);
+				subMinimum = subMinimum.add(BigInteger.ONE);
+				if (subMinimum.compareTo(minimum) == -1)
+					minimum = subMinimum;
+			}
+
+		// Save Cache
+		cache.put(String.format("%s | %d | %d", Arrays.toString(coins), count, change), minimum);
+
+		// Return
+		return minimum;
 	}
 
 }
