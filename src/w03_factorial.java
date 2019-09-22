@@ -12,13 +12,13 @@ public class w03_factorial {
 		n = inputStream.nextInt();
 
 		// Output)
-		System.out.printf("%s", new w03_factorial().factorial(n));
+		System.out.printf("%s", factorial(n));
 
 		// Finalize
 		inputStream.close();
 	}
 
-	public BigInteger factorial(int n) {
+	public static BigInteger factorial(int n) {
 		// Escape
 		if (n < 0)
 			return new BigInteger("0");

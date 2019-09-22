@@ -2,7 +2,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Scanner;
 
-class Stair {
+class RecursiveStair {
 
 	private HashMap<String, BigInteger> cache = new HashMap<String, BigInteger>();
 
@@ -53,7 +53,7 @@ public class w02_stair {
 		m = inputStream.nextInt();
 
 		// Output
-		System.out.printf("%s\n", new Stair().Jump(n, m).toString());
+		System.out.printf("%s\n", new RecursiveStair().Jump(n, m).toString());
 
 		// Finalize
 		inputStream.close();

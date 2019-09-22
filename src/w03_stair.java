@@ -2,7 +2,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Scanner;
 
-class w03_stair_func {
+class CachedStair {
 
 	private HashMap<String, BigInteger> cache = new HashMap<String, BigInteger>();
 
@@ -53,7 +53,7 @@ public class w03_stair {
 		m = inputStream.nextInt();
 
 		// Output
-		System.out.printf("%s\n", new w03_stair_func().Jump(n, m).toString());
+		System.out.printf("%s\n", new CachedStair().Jump(n, m).toString());
 
 		// Finalize
 		inputStream.close();

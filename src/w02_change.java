@@ -2,8 +2,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-class POS {
-	public int change(List<Integer> coins, int charge) {
+public class w02_change {
+
+	public static void main(String[] args) {
+		// Initialize
+		Scanner inputStream = new Scanner(System.in);
+		List<Integer> coins = new ArrayList<Integer>();
+		int count = 0, charge = 0;
+
+		// Input Value
+		count = inputStream.nextInt();
+		for (int loop = 0; loop < count; loop++)
+			coins.add(inputStream.nextInt());
+		charge = inputStream.nextInt();
+
+		// Output Value
+		System.out.printf("%d", change(coins, charge));
+
+		// Finalize
+		inputStream.close();
+	}
+
+	public static int change(List<Integer> coins, int charge) {
 		// Exception
 		if (charge < 0)
 			throw new IllegalArgumentException();
@@ -40,29 +60,4 @@ class POS {
 		// Return
 		return minimum;
 	}
-	
-
-}
-
-public class w02_change {
-
-	public static void main(String[] args) {
-		// Initialize
-		Scanner inputStream = new Scanner(System.in);
-		List<Integer> coins = new ArrayList<Integer>();
-		int count = 0, charge = 0;
-
-		// Input Value
-		count = inputStream.nextInt();
-		for (int loop = 0; loop < count; loop++)
-			coins.add(inputStream.nextInt());
-		charge = inputStream.nextInt();
-
-		// Output Value
-		System.out.printf("%d", new POS().change(coins, charge));
-
-		// Finalize
-		inputStream.close();
-	}
-
 }

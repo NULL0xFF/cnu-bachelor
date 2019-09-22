@@ -1,8 +1,5 @@
 import java.util.Scanner;
 
-class W02_Fibonacci {
-}
-
 public class w02_fibonacci {
 	public static void main(String[] args) {
 		// Initialize
@@ -13,13 +10,13 @@ public class w02_fibonacci {
 		n = inputStream.nextInt();
 
 		// Output Value
-		System.out.printf("%d\n", new w02_fibonacci().fibonacci(n));
+		System.out.printf("%d\n", fibonacci(n));
 
 		// Finalize
 		inputStream.close();
 	}
 
-	public int fibonacci(int n) {
+	public static int fibonacci(int n) {
 		if (n <= 0)
 			return 0;
 		else if (n == 1)

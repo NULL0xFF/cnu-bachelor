@@ -12,13 +12,13 @@ public class w03_fibonacci {
 		n = inputStream.nextInt();
 
 		// Output Value
-		System.out.printf("%s\n", new w03_fibonacci().fibonacci(n));
+		System.out.printf("%s\n", fibonacci(n));
 
 		// Finalize
 		inputStream.close();
 	}
 
-	public BigInteger fibonacci(int n) {
+	public static BigInteger fibonacci(int n) {
 		// Escape
 		if (n <= 0)
 			return BigInteger.ZERO;

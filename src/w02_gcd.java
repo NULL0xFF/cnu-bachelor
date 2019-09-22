@@ -1,13 +1,5 @@
 import java.util.Scanner;
 
-class Euclid {
-	public int gcd(int n1, int n2) {
-		if (n2 == 0)
-			return n1;
-		return gcd(n2, n1 % n2);
-	}
-}
-
 public class w02_gcd {
 	public static void main(String[] args) {
 		// Initialize
@@ -19,9 +11,15 @@ public class w02_gcd {
 		n2 = inputStream.nextInt();
 
 		// Output Value
-		System.out.printf("%d\n", new Euclid().gcd(n1, n2));
+		System.out.printf("%d\n", gcd(n1, n2));
 
 		// Finalize
 		inputStream.close();
+	}
+
+	public static int gcd(int n1, int n2) {
+		if (n2 == 0)
+			return n1;
+		return gcd(n2, n1 % n2);
 	}
 }
