@@ -21,5 +21,5 @@ int main()
     delete heap;
     heap = nullptr;
 
-    return;
+    return 0;
 }
