@@ -5,7 +5,7 @@ OBJECTS = main.o print.o student_id.o
 CXX = g++
 CPPFLAGS = -c
 
-TARGET = test
+TARGET = test.out
 
 $(TARGET) : $(OBJECTS)
 	$(CXX) -o $(TARGET) $(OBJECTS)
