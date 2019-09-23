@@ -5,5 +5,8 @@ int main() {
     char b[] = "ABC";
 
     a[0] = 'b';
-    std::cout << a <<
-    }
+    std::cout << a << std::endl;
+    std::cout << b << std::endl;
+
+    return 0;
+}
