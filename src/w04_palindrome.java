@@ -7,23 +7,94 @@ public class w04_palindrome {
 	public static void main(String[] args) {
 		// Initialize
 		Scanner inputStream = new Scanner(System.in);
-		String s1 = new String();
+		String s = new String();
 
 		// Input
-		s1 = inputStream.next();
+		s = inputStream.next();
 
-		// Pre-process
-		s1 = s1.replace(" ", "");
-		s1 = s1.toLowerCase();
+		// Test case
+		// s = "abaabc";
 
 		// Output
-		System.out.printf("%d\n", palindrome(s1));
+		System.out.printf("%d\n", palindrome(s));
+		// System.out.printf("%d\n", longestPalindrome(s));
 
 		// Finalize
 		inputStream.close();
 	}
 
+	public static int longestPalindrome(String s) {
+		int sl = s.length();
+		int lp = 0;
+		boolean[][] boolTable = new boolean[sl][sl];
+
+		debugPrint(s, boolTable, 0, 0);
+		System.out.printf("\n");
+		for (int i = 0; i < sl; i++) {
+			for (int j = 0; j < sl - i; j++) {
+				if (i < 2) {
+					System.out.printf("i\tj\ts[%d]\ts[%d]\tb[%d][%d]\n", j, i + j, j, i + j);
+					System.out.printf("%d\t%d\t%c\t%c\t", i, j, s.charAt(j), s.charAt(i + j));
+					if (s.charAt(j) == s.charAt(i + j)) {
+						boolTable[j][i + j] = true;
+						lp = i + 1;
+					} else
+						boolTable[j][i + j] = false;
+					System.out.printf("%b\n\n", boolTable[j][i + j]);
+					debugPrint(s, boolTable, i, j);
+					System.out.printf("\n\n");
+				} else {
+					System.out.printf("i\tj\ts[%d]\ts[%d]\tb[%d][%d]\tb[%d][%d]\n", j, i + j, j + 1, i + j - 1, j,
+							i + j);
+					System.out.printf("%d\t%d\t%c\t%c\t%b\t", i, j, s.charAt(j), s.charAt(i + j),
+							boolTable[j + 1][i + j - 1]);
+					if (s.charAt(j) == s.charAt(i + j) && boolTable[j + 1][i + j - 1]) {
+						boolTable[j][i + j] = true;
+						lp = i + 1;
+					} else
+						boolTable[j][i + j] = false;
+					System.out.printf("%b\n\n", boolTable[j][i + j]);
+					debugPrint(s, boolTable, i, j);
+					System.out.printf("\n\n");
+				}
+			}
+		}
+
+		return lp;
+	}
+
+	public static void debugPrint(String s, boolean[][] table, int hi, int hj) {
+
+		for (int i = 0; i <= s.length(); i++)
+			System.out.printf("########");
+		System.out.printf("\n");
+
+		StringBuilder builder = new StringBuilder("\t");
+
+		for (int i = 0; i < s.length(); i++)
+			builder.append(String.format("%c (%d)\t", s.charAt(i), i));
+		builder.append("\n");
+
+		for (int i = 0; i < s.length(); i++) {
+			builder.append(String.format("%c (%d)\t", s.charAt(i), i));
+			for (int j = 0; j < s.length(); j++) {
+				if (i == hi && j == hj)
+					builder.append(String.format("%b ←\t", table[i][j]));
+				else
+					builder.append(String.format("%b\t", table[i][j]));
+			}
+			builder.append("\n");
+		}
+		System.out.printf(builder.toString());
+		for (int i = 0; i <= s.length(); i++)
+			System.out.printf("########");
+		System.out.printf("\n");
+	}
+
 	public static int palindrome(String s) {
+		// Preparation
+		s = s.replace(" ", "");
+		s = s.toLowerCase();
 
 		ArrayList<String> list = new ArrayList<String>();
 

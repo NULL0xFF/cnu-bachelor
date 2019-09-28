@@ -103,24 +103,6 @@ public class w04_kakao {
 			else
 				break;
 
-		// Token into Token
-		// Iterator<String> tokenIterator = scoreToken.iterator();
-		// ArrayList<String> resultToken = new ArrayList<>();
-		// p = Pattern.compile("(\\d)+|[SDT]|[*#]?");
-		// while (true) {
-		// m = p.matcher(tokenIterator.next());
-		// while (true)
-		// if (m.find())
-		// resultToken.add(m.group());
-		// else
-		// break;
-		// // Escape
-		// if (!tokenIterator.hasNext())
-		// break;
-		// }
-
-		// Return
-		// return resultToken;
 		return scoreToken;
 	}
 

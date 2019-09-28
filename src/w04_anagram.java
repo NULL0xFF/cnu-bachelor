@@ -25,16 +25,21 @@ public class w04_anagram {
 		if (s1.length() != s2.length())
 			return "False";
 
+		// Initialize
 		int totalLength = s1.length();
+		int index = 0;
+		char c = '\0';
+
+		// Convert String
 		s1 = s1.toLowerCase();
 		s2 = s2.toLowerCase();
-		
+
+		// Register Characters from s2
 		ArrayList<Character> charList = new ArrayList<Character>();
 		for (int i = 0; i < totalLength; i++)
 			charList.add(s2.charAt(i));
 
-		int index = 0;
-		char c = '\0';
+		// Delete Character from list
 		for (int i = 0; i < totalLength; i++) {
 			c = s1.charAt(i);
 			index = charList.indexOf(c);
@@ -42,7 +47,8 @@ public class w04_anagram {
 				return "False";
 			charList.remove(index);
 		}
-			
+
+		// Return
 		return "True";
 	}
 
