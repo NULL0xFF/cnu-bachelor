@@ -30,7 +30,7 @@ public class w04_anagram {
 		int index = 0;
 		char c = '\0';
 
-		// Convert String
+		// Convert String to LowerCase
 		s1 = s1.toLowerCase();
 		s2 = s2.toLowerCase();
 
