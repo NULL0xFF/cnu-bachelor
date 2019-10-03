@@ -2,174 +2,45 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+ * https://docs.google.com/presentation/d/17-K8qSlahKU4GLAuVT4ztNQZKtmAfG7S8PJXEu2j0GA/edit#slide=id.g64768c5060_0_36
+ */
 public class w05_merge_sort {
 
-	private static int count;
+	public static ArrayList<String> mergeSort(ArrayList<String> stringList, char flag) {
+		ArrayList<String> leftList = new ArrayList<>();
+		ArrayList<String> rightList = new ArrayList<>();
+		return merge(leftList, rightList);
+	}
+
+	public static ArrayList<String> merge(ArrayList<String> leftList, ArrayList<String> rightList) {
+		ArrayList<String> mergedList = new ArrayList<>();
+		return mergedList;
+	}
 
 	public static void main(String[] args) {
-		// Initialize
-		Scanner inputStream = new Scanner(System.in);
+		// Initialize Variable
+		Scanner inputStreamScanner = new Scanner(System.in);
 
 		// Input
-		int n = inputStream.nextInt();
-		count = inputStream.nextInt();
-		char flag = inputStream.next().charAt(0);
-		ArrayList<Character> array = new ArrayList<Character>();
-		for (int l = 0; l < n; l++)
-			array.add(inputStream.next().charAt(0));
+		int numberOfInput = inputStreamScanner.nextInt();
+		char flag = inputStreamScanner.next().charAt(0);
+		ArrayList<String> stringList = new ArrayList<>();
+		for (int index = 0; index < numberOfInput; index++)
+			stringList.add(inputStreamScanner.next());
 
-		// Algorithm
-		switch (flag) {
-		case 'A':
-			array = assendingMergeSort(array);
-			break;
-		case 'D':
-			array = decendingMergeSort(array);
-			break;
-		}
+		// Merge Sort
+		stringList = mergeSort(stringList, flag);
 
 		// Output
-		for (int i = 0; i < n; i++)
-			System.out.printf("%c ", array.get(i));
+		Iterator<String> listIterator = stringList.iterator();
+		StringBuilder stringBuilder = new StringBuilder(listIterator.next());
+		while (listIterator.hasNext())
+			stringBuilder.append(" " + listIterator.next());
+		System.out.println(stringBuilder.toString());
 
 		// Finalize
-		inputStream.close();
-	}
-
-	public static ArrayList<Character> assendingMergeSort(ArrayList<Character> list) {
-		// Exception
-		if (list.size() <= 1)
-			return list;
-
-		ArrayList<Character> left = new ArrayList<Character>();
-		ArrayList<Character> right = new ArrayList<Character>();
-		int middle;
-		if (list.size() % 2 == 0)
-			middle = list.size() / 2;
-		else
-			middle = list.size() / 2 + 1;
-		for (int i = 0; i < middle; i++) {
-			left.add(list.get(i));
-		}
-		for (int i = middle; i < list.size(); i++) {
-			right.add(list.get(i));
-		}
-		left = assendingMergeSort(left);
-		right = assendingMergeSort(right);
-		return assendingMerge(left, right);
-	}
-
-	public static ArrayList<Character> decendingMergeSort(ArrayList<Character> list) {
-		// Exception
-		if (list.size() <= 1)
-			return list;
-
-		ArrayList<Character> left = new ArrayList<Character>();
-		ArrayList<Character> right = new ArrayList<Character>();
-		int middle;
-		if (list.size() % 2 == 0)
-			middle = list.size() / 2;
-		else
-			middle = list.size() / 2 + 1;
-		for (int i = 0; i < middle; i++) {
-			left.add(list.get(i));
-		}
-		for (int i = middle; i < list.size(); i++) {
-			right.add(list.get(i));
-		}
-		left = decendingMergeSort(left);
-		right = decendingMergeSort(right);
-		return decendingMerge(left, right);
-	}
-
-	public static ArrayList<Character> assendingMerge(ArrayList<Character> left, ArrayList<Character> right) {
-		ArrayList<Character> list = new ArrayList<Character>();
-		Iterator<Character> leftIterator = left.iterator();
-		Iterator<Character> rightIterator = right.iterator();
-		char leftChar = leftIterator.next();
-		char rightChar = rightIterator.next();
-		if (count != 0)
-			while (true) {
-				if (leftChar <= rightChar) {
-					list.add(leftChar);
-					leftChar = '\0';
-					if (leftIterator.hasNext())
-						leftChar = leftIterator.next();
-					else
-						break;
-				} else {
-					list.add(rightChar);
-					rightChar = '\0';
-					if (rightIterator.hasNext())
-						rightChar = rightIterator.next();
-					else
-						break;
-				}
-			}
-		if (leftChar != '\0') {
-			while (true) {
-				list.add(leftChar);
-				if (!leftIterator.hasNext())
-					break;
-				leftChar = leftIterator.next();
-			}
-		}
-		if (rightChar != '\0') {
-			while (true) {
-				list.add(rightChar);
-				if (!rightIterator.hasNext())
-					break;
-				rightChar = rightIterator.next();
-			}
-		}
-		if (count != 0)
-			count--;
-		return list;
-	}
-
-	public static ArrayList<Character> decendingMerge(ArrayList<Character> left, ArrayList<Character> right) {
-		ArrayList<Character> list = new ArrayList<Character>();
-		Iterator<Character> leftIterator = left.iterator();
-		Iterator<Character> rightIterator = right.iterator();
-		char leftChar = leftIterator.next();
-		char rightChar = rightIterator.next();
-		if (count != 0)
-			while (true) {
-				if (rightChar <= leftChar) {
-					list.add(leftChar);
-					leftChar = '\0';
-					if (leftIterator.hasNext())
-						leftChar = leftIterator.next();
-					else
-						break;
-				} else {
-					list.add(rightChar);
-					rightChar = '\0';
-					if (rightIterator.hasNext())
-						rightChar = rightIterator.next();
-					else
-						break;
-				}
-			}
-		if (leftChar != '\0') {
-			while (true) {
-				list.add(leftChar);
-				if (!leftIterator.hasNext())
-					break;
-				leftChar = leftIterator.next();
-			}
-		}
-		if (rightChar != '\0') {
-			while (true) {
-				list.add(rightChar);
-				if (!rightIterator.hasNext())
-					break;
-				rightChar = rightIterator.next();
-			}
-		}
-		if (count != 0)
-			count--;
-		return list;
+		inputStreamScanner.close();
 	}
 
 }
