@@ -2,9 +2,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-/**
- * https://docs.google.com/presentation/d/17-K8qSlahKU4GLAuVT4ztNQZKtmAfG7S8PJXEu2j0GA/edit#slide=id.g64768c5060_0_36
- */
 public class w05_merge_sort {
 
 	private static int count = 0;
