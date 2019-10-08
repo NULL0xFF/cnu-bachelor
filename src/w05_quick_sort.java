@@ -7,15 +7,22 @@ public class w05_quick_sort {
 	private static int count = 0;
 
 	public static ArrayList<Character> quickSort(ArrayList<Character> charList, int low, int high, char flag) {
+		// Breakpoint Escape
 		if (count == 0)
 			return charList;
+
+		// Algorithm
 		if (low < high) {
 			int partitionIndex = partition(charList, low, high, flag);
 			if (count == 0)
 				return charList;
+
+			// Recursive
 			quickSort(charList, low, partitionIndex - 1, flag);
 			quickSort(charList, partitionIndex + 1, high, flag);
 		}
+
+		// Return
 		return charList;
 	}
 
