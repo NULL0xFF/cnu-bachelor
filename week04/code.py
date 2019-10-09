@@ -7,8 +7,6 @@ class Shape:
         raise NotImplementedError
 
 class Circle(Shape):
-    def __init__(self, radius):
-        self.radius = radius
     def getArea(self):
         return self.radius * self.radius * math.pi
     def setRadius(self, radius):
@@ -33,7 +31,7 @@ class Triangle(Polygon):
     def getArea(self):
         return self.width * self.height * 0.5
 
-Cir = Circle(3)
+Cir = Circle()
 Cir.setRadius(3)
 Rect = Rectangle(2, 3)
 Trian = Triangle(2, 8)
