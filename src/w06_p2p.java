@@ -1,88 +1,86 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 public class w06_p2p {
 
 	public static void main(String[] args) {
 		// Initialize
 		Scanner inputStream = new Scanner(System.in);
+
 		// Create Graph
-		Graph graph = new Graph();
+		HashMap<String, ArrayList<String>> graph = new HashMap<String, ArrayList<String>>();
 		int n, m;
 		n = inputStream.nextInt();
 		m = inputStream.nextInt();
 		for (int i = 0; i < n; i++)
-			graph.addNode(inputStream.next());
+			graph.put(inputStream.next(), new ArrayList<String>());
 		String edgeStart, edgeEnd;
 		for (int i = 0; i < m; i++) {
 			edgeStart = inputStream.next();
 			edgeEnd = inputStream.next();
-			graph.addEdge(edgeStart, edgeEnd);
+			if (!graph.get(edgeStart).contains(edgeEnd))
+				graph.get(edgeStart).add(edgeEnd);
+			if (!graph.get(edgeEnd).contains(edgeStart))
+				graph.get(edgeEnd).add(edgeStart);
 		}
 
-		// Sort Graph
-		graph.sort();
+		// Input
+		String nodeStart = inputStream.next();
 
 		// Output
-		System.out.printf("%s", graph);
+		System.out.printf("%d", longestLength(graph, nodeStart));
 
 		// Finalize
 		inputStream.close();
 	}
 
-	private static class Graph {
-		private HashMap<String, List<String>> graphMap;
+	private static int longestLength(HashMap<String, ArrayList<String>> graph, String nodeStart) {
+		class Cache {
+			String value;
+			int index;
 
-		public Graph() {
-			this.graphMap = new HashMap<String, List<String>>();
+			Cache(String V, int I) {
+				this.value = V;
+				this.index = I;
+			}
+		}
+		// Exception
+		if (!graph.containsKey(nodeStart))
+			return -1;
+
+		// Initialize
+		int longestPath = 0;
+
+		// BFS
+		HashMap<String, Integer> visited = new HashMap<String, Integer>();
+		List<Cache> queue = new ArrayList<Cache>();
+		Cache node;
+		queue.add(new Cache(nodeStart, 0));
+		while (!queue.isEmpty()) {
+			node = queue.remove(0);
+			if (!visited.containsKey(node.value))
+				visited.put(node.value, node.index);
+			else if (node.index >= visited.get(node.value))
+				continue;
+
+			for (int i = 0; i < graph.get(node.value).size(); i++)
+				queue.add(new Cache(graph.get(node.value).get(i), node.index + 1));
+
 		}
 
-		public boolean addNode(String node) {
-			if (this.graphMap.containsKey(node))
-				return false;
-			this.graphMap.put(node, new ArrayList<String>());
-			return true;
+		ArrayList<Integer> pathList = new ArrayList<Integer>(visited.values());
+		Iterator<Integer> pathListIterator = pathList.iterator();
+		int searchedPath;
+		while (pathListIterator.hasNext()) {
+			searchedPath = pathListIterator.next();
+			if (longestPath < searchedPath)
+				longestPath = searchedPath;
 		}
 
-		public boolean addEdge(String nodeFront, String nodeEnd) {
-			this.addNode(nodeFront);
-			this.addNode(nodeEnd);
-			if (this.graphMap.get(nodeFront).contains(nodeEnd))
-				return false;
-			this.graphMap.get(nodeFront).add(nodeEnd);
-			this.graphMap.get(nodeEnd).add(nodeFront);
-			return true;
-		}
-
-		public void sort() {
-			this.graphMap.forEach((k, v) -> {
-				Collections.sort((List<String>) v);
-			});
-		}
-
-		@Override
-		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			Set<String> cache = new HashSet<String>();
-			this.graphMap.forEach((k, v) -> {
-				cache.add(k);
-				builder.append(String.format("%s: ", k));
-				v.forEach(e -> {
-					builder.append(String.format("%s", e));
-					if (v.indexOf(e) < v.size() - 1)
-						builder.append(", ");
-				});
-				if (graphMap.size() != cache.size())
-					builder.append("\n");
-			});
-			return builder.toString();
-		}
-
+		// Return
+		return longestPath;
 	}
-
 }
