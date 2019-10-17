@@ -3,7 +3,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <queue>
+#include <stack>
 
 int main(void)
 {
@@ -39,22 +39,22 @@ int main(void)
             return 1; // key not found
     }
 
-    // BFS
+    // DFS
     std::vector<std::string> visited;
-    std::queue<std::string> queued;
+    std::stack<std::string> stacked;
     std::cin >> input[0];
-    queued.push(input[0]);
-    while (!queued.empty())
+    stacked.push(input[0]);
+    while (!stacked.empty())
     {
-        input[1] = queued.front();
-        queued.pop();
+        input[1] = stacked.top();
+        stacked.pop();
         if (std::find(visited.begin(), visited.end(), input[1]) == visited.end())
         {
             visited.push_back(input[1]);
             list = graph.find(input[1])->second;
-            sort(list->begin(), list->end());
+            sort(list->begin(), list->end(), std::greater<std::string>());
             for (int i = 0; i < (int)list->size(); i++)
-                queued.push(list->at(i));
+                stacked.push(list->at(i));
         }
     }
 
