@@ -42,25 +42,25 @@ void shared_mut::increase()
 shared_mut shared_mut::operator+(const shared_mut &shared)
 {
     Object obj(shared_mut::get()->get() + shared.get()->get());
-    shared_mut::shared_mut result(&obj);
+    shared_mut result(&obj);
     return result;
 }
 shared_mut shared_mut::operator-(const shared_mut &shared)
 {
     Object obj(shared_mut::get()->get() - shared.get()->get());
-    shared_mut::shared_mut result(&obj);
+    shared_mut result(&obj);
     return result;
 }
 shared_mut shared_mut::operator*(const shared_mut &shared)
 {
     Object obj(shared_mut::get()->get() * shared.get()->get());
-    shared_mut::shared_mut result(&obj);
+    shared_mut result(&obj);
     return result;
 }
 shared_mut shared_mut::operator/(const shared_mut &shared)
 {
     Object obj(shared_mut::get()->get() / shared.get()->get());
-    shared_mut::shared_mut result(&obj);
+    shared_mut result(&obj);
     return result;
 }
 
