@@ -6,7 +6,6 @@
 
 int main(void)
 {
-
     // Graph Scale
     int n, m;
     std::cin >> n;
@@ -41,19 +40,10 @@ int main(void)
             return 1; // key not found
     }
 
-    // Print Graph
-    // for (auto it1 = graph.begin(); it1 != graph.end(); it1++)
-    // {
-    //     std::cout << it1->first << ": ";
-    //     for (auto it2 = it1->second->begin(); it2 != it1->second->end(); it2++)
-    //     {
-    //         std::cout << *it2 << " ";
-    //     }
-    //     std::cout << std::endl;
-    // }
-
-    // Print Neighbor
+    // Input
     std::cin >> input[0];
+
+    // Output
     list = graph.find(input[0])->second;
     std::cout << list->size();
 

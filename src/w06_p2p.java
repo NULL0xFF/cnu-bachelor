@@ -71,6 +71,7 @@ public class w06_p2p {
 
 		}
 
+		// Path
 		ArrayList<Integer> pathList = new ArrayList<Integer>(visited.values());
 		Iterator<Integer> pathListIterator = pathList.iterator();
 		int searchedPath;

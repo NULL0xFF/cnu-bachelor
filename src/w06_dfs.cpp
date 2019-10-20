@@ -58,7 +58,7 @@ int main(void)
         }
     }
 
-    // Print BFS
+    // Output
     for (auto it1 = visited.begin(); it1 != visited.end(); it1++)
     {
         std::cout << *it1;

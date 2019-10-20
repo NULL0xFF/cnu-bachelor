@@ -5,14 +5,14 @@ import java.util.Scanner;
 public class w06_graph {
 
 	public static void main(String[] args) {
-		// Initialization
+		// Initialize
 		Scanner inputStream = new Scanner(System.in);
 
-		// Input (Setup Variable)
+		// Graph Scale
 		int n = inputStream.nextInt();
 		int m = inputStream.nextInt();
 
-		// Input (Node and Edge)
+		// Create Graph
 		HashMap<String, ArrayList<String>> graph = new HashMap<String, ArrayList<String>>();
 		for (int i = 0; i < n; i++) {
 			graph.put(inputStream.next(), new ArrayList<String>());
@@ -28,7 +28,7 @@ public class w06_graph {
 				graph.get(edgeEnd).add(edgeStart);
 			}
 		}
-		
+
 		// Output
 		System.out.printf("%d", graph.get(inputStream.next()).size());
 

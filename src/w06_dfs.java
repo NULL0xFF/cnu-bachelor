@@ -9,8 +9,7 @@ import java.util.Scanner;
 public class w06_dfs {
 
 	public static void main(String[] args) {
-
-		// Initialize Variable
+		// Initialize
 		Scanner inputStream = new Scanner(System.in);
 
 		// Create Graph
@@ -30,10 +29,10 @@ public class w06_dfs {
 				graph.get(edgeEnd).add(edgeStart);
 		}
 
-		// Input StartNode
+		// Input
 		String nodeStart = inputStream.next();
 
-		// Output BFS
+		// Output
 		List<String> visitedDFS = dfs(graph, nodeStart);
 		StringBuilder builder = new StringBuilder();
 		while (!visitedDFS.isEmpty()) {
