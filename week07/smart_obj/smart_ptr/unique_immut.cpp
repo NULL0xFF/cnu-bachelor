@@ -37,23 +37,19 @@ Object *unique_immut::get() const
 }
 unique_immut unique_immut::operator+(unique_immut &unique)
 {
-    unique_immut result(new Object(this->get()->get() + unique.get()->get()));
-    return result;
+    return unique_immut(new Object(this->get()->get() + unique.get()->get()));
 }
 unique_immut unique_immut::operator-(unique_immut &unique)
 {
-    unique_immut result(new Object(this->get()->get() - unique.get()->get()));
-    return result;
+    return unique_immut(new Object(this->get()->get() - unique.get()->get()));
 }
 unique_immut unique_immut::operator*(unique_immut &unique)
 {
-    unique_immut result(new Object(this->get()->get() * unique.get()->get()));
-    return result;
+    return unique_immut(new Object(this->get()->get() * unique.get()->get()));
 }
 unique_immut unique_immut::operator/(unique_immut &unique)
 {
-    unique_immut result(new Object(this->get()->get() / unique.get()->get()));
-    return result;
+    return unique_immut(new Object(this->get()->get() / unique.get()->get()));
 }
 Object *unique_immut::operator->()
 {

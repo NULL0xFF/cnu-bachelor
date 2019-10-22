@@ -12,7 +12,7 @@ int main() {
         shared_mut q(new Object(5));
         shared_mut r = p + q;
 
-        std::cout << "Hello, Unique_immut! " <<  r->get() << std::endl;
+        std::cout << "Hello, Shared_mut! " <<  r->get() << std::endl;
     }
     std::cout << "\n\nUnique Immutable Pointer" << std::endl;
     {

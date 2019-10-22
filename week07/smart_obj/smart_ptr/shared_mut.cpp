@@ -41,23 +41,19 @@ void shared_mut::increase()
 
 shared_mut shared_mut::operator+(const shared_mut &shared)
 {
-    shared_mut result(new Object(this->get()->get() + shared.get()->get()));
-    return result;
+    return shared_mut(new Object(this->get()->get() + shared.get()->get()));
 }
 shared_mut shared_mut::operator-(const shared_mut &shared)
 {
-    shared_mut result(new Object(this->get()->get() - shared.get()->get()));
-    return result;
+    return shared_mut(new Object(this->get()->get() - shared.get()->get()));
 }
 shared_mut shared_mut::operator*(const shared_mut &shared)
 {
-    shared_mut result(new Object(this->get()->get() * shared.get()->get()));
-    return result;
+    return shared_mut(new Object(this->get()->get() * shared.get()->get()));
 }
 shared_mut shared_mut::operator/(const shared_mut &shared)
 {
-    shared_mut result(new Object(this->get()->get() / shared.get()->get()));
-    return result;
+    return shared_mut(new Object(this->get()->get() / shared.get()->get()));
 }
 
 Object *shared_mut::operator->()
