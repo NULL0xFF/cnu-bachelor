@@ -265,3 +265,7 @@ __pycache__/
 
 # Visual Studio Code Config
 /.vscode/
+
+# GNU C++
+*.o
+*.out
