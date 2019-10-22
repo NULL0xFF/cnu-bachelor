@@ -55,3 +55,31 @@ print(q1 + q2)
 print(q1 * 2)
 print(len(q1))
 print(q1[0], q1[1])
+
+########################################
+########################################
+
+word = "computer science"
+without_vowels = [consonant for consonant in word if consonant not in {
+    'a', 'i', 'u', 'o', 'e'}]
+
+print(without_vowels)
+
+########################################
+########################################
+
+matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+]
+flatten = [e for r in matrix for e in r]
+print(flatten)
+
+########################################
+########################################
+
+subjects = ['math', 'history', 'english', 'computer engineering']
+scores = [90, 80, 95, 100]
+score_dict = {subject: score for subject, score in zip(subjects, scores)}
+print(score_dict)
