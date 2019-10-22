@@ -37,39 +37,35 @@ Object *unique_immut::get() const
 }
 unique_immut unique_immut::operator+(unique_immut &unique)
 {
-    Object obj(unique_immut::get()->get() + unique.get()->get());
-    unique_immut result(&obj);
+    unique_immut result(new Object(this->get()->get() + unique.get()->get()));
     return result;
 }
 unique_immut unique_immut::operator-(unique_immut &unique)
 {
-    Object obj(unique_immut::get()->get() + unique.get()->get());
-    unique_immut result(&obj);
+    unique_immut result(new Object(this->get()->get() - unique.get()->get()));
     return result;
 }
 unique_immut unique_immut::operator*(unique_immut &unique)
 {
-    Object obj(unique_immut::get()->get() + unique.get()->get());
-    unique_immut result(&obj);
+    unique_immut result(new Object(this->get()->get() * unique.get()->get()));
     return result;
 }
 unique_immut unique_immut::operator/(unique_immut &unique)
 {
-    Object obj(unique_immut::get()->get() + unique.get()->get());
-    unique_immut result(&obj);
+    unique_immut result(new Object(this->get()->get() / unique.get()->get()));
     return result;
 }
 Object *unique_immut::operator->()
 {
-    return _mgr->ptr;
+    return this->_mgr->ptr;
 }
 
 unique_immut &unique_immut::operator=(unique_immut &r)
 {
-    if (_mgr != r._mgr)
+    if (this->_mgr != r._mgr)
     {
         release();
-        _mgr = r._mgr;
+        this->_mgr = r._mgr;
     }
     return *this;
 }

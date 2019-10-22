@@ -41,37 +41,33 @@ void shared_mut::increase()
 
 shared_mut shared_mut::operator+(const shared_mut &shared)
 {
-    Object obj(shared_mut::get()->get() + shared.get()->get());
-    shared_mut result(&obj);
+    shared_mut result(new Object(this->get()->get() + shared.get()->get()));
     return result;
 }
 shared_mut shared_mut::operator-(const shared_mut &shared)
 {
-    Object obj(shared_mut::get()->get() - shared.get()->get());
-    shared_mut result(&obj);
+    shared_mut result(new Object(this->get()->get() - shared.get()->get()));
     return result;
 }
 shared_mut shared_mut::operator*(const shared_mut &shared)
 {
-    Object obj(shared_mut::get()->get() * shared.get()->get());
-    shared_mut result(&obj);
+    shared_mut result(new Object(this->get()->get() * shared.get()->get()));
     return result;
 }
 shared_mut shared_mut::operator/(const shared_mut &shared)
 {
-    Object obj(shared_mut::get()->get() / shared.get()->get());
-    shared_mut result(&obj);
+    shared_mut result(new Object(this->get()->get() / shared.get()->get()));
     return result;
 }
 
 Object *shared_mut::operator->()
 {
-    return _mgr->ptr;
+    return this->_mgr->ptr;
 }
 shared_mut &shared_mut::operator=(const shared_mut &r)
 {
     shared_mut::release();
-    _mgr = r._mgr;
+    this->_mgr = r._mgr;
     shared_mut::increase();
 }
 } // end of namespace ptr
