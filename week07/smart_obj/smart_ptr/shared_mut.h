@@ -8,20 +8,17 @@
 #include "smart_obj.h"
 #include "unique_immut.h"
 
-namespace ptr
-{
-class shared_mut : public smart_obj
-{
+namespace ptr {
+class shared_mut : public smart_obj {
 private:
-    mgr *_mgr;
+    mgr* _mgr;
     void increase();
-
 public:
     shared_mut();
-    explicit shared_mut(Object *obj);
+    explicit shared_mut(Object* obj);
     ~shared_mut();
 
-    Object *get() const;
+    Object* get() const;
     void release();
     int count();
 
@@ -29,14 +26,14 @@ public:
     shared_mut operator-(const shared_mut &shared);
     shared_mut operator*(const shared_mut &shared);
     shared_mut operator/(const shared_mut &shared);
-    Object *operator->();
+    Object* operator->();
 
-    //    shared_mut operator+(unique_immut &unique);
-    //    shared_mut operator-(unique_immut &unique);
-    //    shared_mut operator*(unique_immut &unique);
-    //    shared_mut operator/(unique_immut &unique);
-    //    shared_mut&operator=(unique_immut &r);
-    shared_mut &operator=(const shared_mut &r);
+//    shared_mut operator+(unique_immut &unique);
+//    shared_mut operator-(unique_immut &unique);
+//    shared_mut operator*(unique_immut &unique);
+//    shared_mut operator/(unique_immut &unique);
+//    shared_mut&operator=(unique_immut &r);
+    shared_mut&operator=(const shared_mut &r);
 }; // end of class shared_mut
 } // end of namespace ptr
 

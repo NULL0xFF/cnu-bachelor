@@ -26,42 +26,59 @@ unique_immut::~unique_immut()
 {
     release();
 }
+Object *unique_immut::get() const
+{
+    return _mgr->ptr;
+}
 void unique_immut::release()
 {
     if (_mgr != nullptr)
         _mgr->~mgr();
 }
-Object *unique_immut::get() const
-{
-    return _mgr->ptr;
-}
 unique_immut unique_immut::operator+(unique_immut &unique)
 {
-    return unique_immut(new Object(this->get()->get() + unique.get()->get()));
+    auto val1 = get()->get();
+    auto val2 = unique.get()->get();
+    release();
+    unique.release();
+    return unique_immut(new Object(val1 + val2));
 }
 unique_immut unique_immut::operator-(unique_immut &unique)
 {
-    return unique_immut(new Object(this->get()->get() - unique.get()->get()));
+    auto val1 = get()->get();
+    auto val2 = unique.get()->get();
+    release();
+    unique.release();
+    return unique_immut(new Object(val1 - val2));
 }
 unique_immut unique_immut::operator*(unique_immut &unique)
 {
-    return unique_immut(new Object(this->get()->get() * unique.get()->get()));
+    auto val1 = get()->get();
+    auto val2 = unique.get()->get();
+    release();
+    unique.release();
+    return unique_immut(new Object(val1 * val2));
 }
 unique_immut unique_immut::operator/(unique_immut &unique)
 {
-    return unique_immut(new Object(this->get()->get() / unique.get()->get()));
+    auto val1 = get()->get();
+    auto val2 = unique.get()->get();
+    release();
+    unique.release();
+    return unique_immut(new Object(val1 / val2));
 }
 Object *unique_immut::operator->()
 {
-    return this->_mgr->ptr;
+    return _mgr->ptr;
 }
 
 unique_immut &unique_immut::operator=(unique_immut &r)
 {
-    if (this->_mgr != r._mgr)
+    if (_mgr != r._mgr)
     {
         release();
-        this->_mgr = r._mgr;
+        _mgr = new mgr(r->get());
+        r._mgr->ptr = nullptr;
     }
     return *this;
 }

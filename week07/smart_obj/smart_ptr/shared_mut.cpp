@@ -10,38 +10,35 @@ shared_mut::shared_mut()
 {
     _mgr = new mgr();
 }
-
 shared_mut::shared_mut(Object *_obj)
 {
     _mgr = new mgr(_obj);
 }
-
 shared_mut::~shared_mut()
 {
     release();
 }
-void shared_mut::release()
+void shared_mut::increase()
 {
-    _mgr->count = _mgr->count - 1;
-    if (_mgr->count == 0)
-        _mgr->~mgr();
+    _mgr->count++;
 }
 Object *shared_mut::get() const
 {
     return _mgr->ptr;
 }
+void shared_mut::release()
+{
+    _mgr->count--;
+    if (_mgr->count == 0)
+        _mgr->~mgr();
+}
 int shared_mut::count()
 {
     return _mgr->count;
 }
-void shared_mut::increase()
-{
-    _mgr->count = _mgr->count + 1;
-}
-
 shared_mut shared_mut::operator+(const shared_mut &shared)
 {
-    return shared_mut(new Object(this->get()->get() + shared.get()->get()));
+    return shared_mut(new Object(get()->get() + shared.get()->get()));
 }
 shared_mut shared_mut::operator-(const shared_mut &shared)
 {
@@ -55,15 +52,15 @@ shared_mut shared_mut::operator/(const shared_mut &shared)
 {
     return shared_mut(new Object(this->get()->get() / shared.get()->get()));
 }
-
 Object *shared_mut::operator->()
 {
-    return this->_mgr->ptr;
+    return _mgr->ptr;
 }
 shared_mut &shared_mut::operator=(const shared_mut &r)
 {
-    shared_mut::release();
-    this->_mgr = r._mgr;
-    shared_mut::increase();
+    release();
+    _mgr = r._mgr;
+    increase();
+    return *this;
 }
 } // end of namespace ptr

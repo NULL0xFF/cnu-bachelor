@@ -5,7 +5,7 @@ OBJECTS = main.o smart_ptr/object.o smart_ptr/smart_obj.o smart_ptr/shared_mut.o
 CXX = g++
 SMT_PTR = smart_ptr
 
-TARGET = test.out
+TARGET = test
 
 $(TARGET) : $(OBJECTS)
 	$(MAKE) -C $(SMT_PTR)
