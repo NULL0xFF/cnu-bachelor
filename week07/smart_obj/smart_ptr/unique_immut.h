@@ -7,26 +7,29 @@
 
 #include "smart_obj.h"
 
-namespace ptr {
-class unique_immut : public smart_obj {
+namespace ptr
+{
+class unique_immut : public smart_obj
+{
 private:
-    mgr* _mgr;
+    mgr *_mgr;
+
 public:
     unique_immut();
-    unique_immut(const unique_immut& immut);
-    explicit unique_immut(Object* obj);
+    unique_immut(const unique_immut &immut);
+    explicit unique_immut(Object *obj);
     ~unique_immut();
 
-    Object* get() const;
+    Object *get() const;
     void release();
 
     unique_immut operator+(unique_immut &unique);
     unique_immut operator-(unique_immut &unique);
     unique_immut operator*(unique_immut &unique);
     unique_immut operator/(unique_immut &unique);
-    Object* operator->();
+    Object *operator->();
 
-    unique_immut&operator=(unique_immut& r);
+    unique_immut &operator=(unique_immut &r);
 }; // end of class unique_immut
 } // end of namespace ptr
 

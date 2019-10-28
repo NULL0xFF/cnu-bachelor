@@ -10,10 +10,12 @@ unique_immut::unique_immut()
 {
     _mgr = new mgr();
 }
+
 unique_immut::unique_immut(Object *obj)
 {
     _mgr = new mgr(obj);
 }
+
 unique_immut::unique_immut(const unique_immut &immut)
 {
     if (immut._mgr)
@@ -22,19 +24,24 @@ unique_immut::unique_immut(const unique_immut &immut)
         _mgr = new mgr(val);
     }
 }
+
 unique_immut::~unique_immut()
 {
     release();
 }
+
 Object *unique_immut::get() const
 {
     return _mgr->ptr;
 }
+
 void unique_immut::release()
 {
     if (_mgr != nullptr)
         _mgr->~mgr();
+    _mgr = new mgr();
 }
+
 unique_immut unique_immut::operator+(unique_immut &unique)
 {
     auto val1 = get()->get();
@@ -43,6 +50,7 @@ unique_immut unique_immut::operator+(unique_immut &unique)
     unique.release();
     return unique_immut(new Object(val1 + val2));
 }
+
 unique_immut unique_immut::operator-(unique_immut &unique)
 {
     auto val1 = get()->get();
@@ -51,6 +59,7 @@ unique_immut unique_immut::operator-(unique_immut &unique)
     unique.release();
     return unique_immut(new Object(val1 - val2));
 }
+
 unique_immut unique_immut::operator*(unique_immut &unique)
 {
     auto val1 = get()->get();
@@ -59,6 +68,7 @@ unique_immut unique_immut::operator*(unique_immut &unique)
     unique.release();
     return unique_immut(new Object(val1 * val2));
 }
+
 unique_immut unique_immut::operator/(unique_immut &unique)
 {
     auto val1 = get()->get();
@@ -67,6 +77,7 @@ unique_immut unique_immut::operator/(unique_immut &unique)
     unique.release();
     return unique_immut(new Object(val1 / val2));
 }
+
 Object *unique_immut::operator->()
 {
     return _mgr->ptr;

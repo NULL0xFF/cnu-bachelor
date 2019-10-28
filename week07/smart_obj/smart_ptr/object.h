@@ -7,9 +7,11 @@
 
 #include <iostream>
 
-class Object {
+class Object
+{
 private:
     int val;
+
 public:
     Object();
     explicit Object(int _val);

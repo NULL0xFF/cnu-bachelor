@@ -7,29 +7,37 @@
 
 #include "object.h"
 
-namespace ptr {
-class smart_obj {
+namespace ptr
+{
+class smart_obj
+{
 protected:
-    struct mgr {
-        mgr() {
+    struct mgr
+    {
+        mgr()
+        {
             ptr = nullptr;
             count = 0;
         }
-        explicit mgr(int val) {
+        explicit mgr(int val)
+        {
             ptr = new Object(val);
             count = 1;
         }
-        explicit mgr(Object* _ptr) {
+        explicit mgr(Object *_ptr)
+        {
             ptr = _ptr;
             count = 1;
         }
-        ~mgr() {
-            delete(ptr);
+        ~mgr()
+        {
+            delete (ptr);
             ptr = nullptr;
         }
-        Object* ptr;
+        Object *ptr;
         int count;
     };
+
 public:
     smart_obj();
     ~smart_obj();
