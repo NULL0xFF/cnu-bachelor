@@ -1,5 +1,4 @@
-#ifndef VEHICLE_HPP
-#define VEHICLE_HPP
+#pragma once
 class vehicle
 {
 private:
@@ -19,4 +18,3 @@ public:
     void set_max_speed(int);
     void set_has_name(bool);
 };
-#endif
