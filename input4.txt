@@ -1,9 +1,0 @@
-5 7
-A B C D E
-A B 20
-A C 50
-A D 70
-A E 90
-B C 30
-C D 40
-D E 60

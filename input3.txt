@@ -1,8 +1,0 @@
-4 6
-A B C D
-A B 5
-A C 3
-D A 6
-B D 7
-C B 4
-C D 5
