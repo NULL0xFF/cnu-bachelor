@@ -42,9 +42,9 @@ int main()
 
     // TODO
     // map m에 있는 값 10과 40을 삭제하세요.
-    // erase를 통해 key값에 맞는 값을 지울 수 있
-    m.erase("first");
-    m.erase("fourth");
+    // erase를 통해 key값에 맞는 값을 지울 수 있다
+    m.erase(m.find("first"));
+    m.erase(m.find("fourth"));
 
     if (m.size() != 2 && (m["first"] == 10 || m["fourth"] == 40))
     {
