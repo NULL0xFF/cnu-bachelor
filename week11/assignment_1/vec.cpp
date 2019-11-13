@@ -56,7 +56,7 @@ int main()
         result += 1;
     }
     // TODO
-    // find를 사용하여 v에서 30이 몇 번째 인덱스에 있는지 찾는 코드롤 완성하세요.
+    // v에서 30이 몇 번째 인덱스에 있는지 찾는 코드롤 완성하세요.
     int index = 0;
     for (vector<int>::iterator it = v.begin(); it != v.end(); it++)
     {
