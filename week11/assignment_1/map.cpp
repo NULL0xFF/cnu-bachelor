@@ -53,7 +53,7 @@ int main()
     }
 
     // TODO
-    // find를 사용하여 m에서 key = third, value = 30인 값이  있는지 찾는 코드롤 완성하세요.
+    // m에서 key = third, value = 30인 값이  있는지 찾는 코드롤 완성하세요.
     // iterator의 ->first 값은 key, ->second 값은 value
     int check = 0;
     for (map<string, int>::iterator it = m.begin(); it != m.end(); it++)
