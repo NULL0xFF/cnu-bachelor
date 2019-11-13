@@ -2,7 +2,7 @@
 #include <fstream>
 #include <algorithm>
 #include <vector>
-
+/* Athlete Class */
 class athlete
 {
 private:
@@ -26,40 +26,31 @@ public:
         return false;
     };
 };
-
-/* 
- * Input Method Return Function
- */
-std::istream *init_input(int argc, char *argv[])
+/* Input Method Return Function */
+std::istream &init_input(int argc, char *argv[])
 {
-    if (argc == 1)
-        return &std::cin;
     if (argc == 2)
-        return new std::ifstream(argv[1]);
-    std::cerr << "too many arguments" << std::endl;
-    exit(1);
+        return *(new std::ifstream(argv[1]));
+    return std::cin;
 }
-
+/* Main Function */
 int main(int argc, char *argv[])
 {
     // Initialize Variable
-    std::istream *in = init_input(argc, argv);
+    std::istream &in = init_input(argc, argv);
     int a, b, i, j, k, n, m, x;
     std::vector<athlete> input_list;
-
     // Input
-    *in >> n;
-    *in >> m;
+    in >> n;
+    in >> m;
     for (i = 0; i < n; i++)
         for (j = 0; j < m; j++)
         {
-            *in >> x;
+            in >> x;
             input_list.push_back(athlete(i, x));
         }
-
     // Sort
     std::sort(input_list.begin(), input_list.end(), athlete::compare);
-
     // Difference Check
     athlete *queue[n];
     for (i = 0; i < n; i++)
@@ -69,7 +60,6 @@ int main(int argc, char *argv[])
     for (auto it = input_list.begin(); it != input_list.end(); it++)
     {
         queue[it->get_team_number()] = &(*it);
-
         // Queue Flag Check
         if (x == 0)
         {
@@ -80,7 +70,6 @@ int main(int argc, char *argv[])
             if (j == n)
                 x = 1;
         }
-
         // Queue Ready
         if (x == 1)
         {
@@ -97,36 +86,18 @@ int main(int argc, char *argv[])
                 b = queue[0]->get_value();
             }
             for (i = 2; i < n; i++)
-            {
                 if (queue[i]->get_value() < a)
-                {
                     a = queue[i]->get_value();
-                }
                 else if (b < queue[i]->get_value())
-                {
                     b = queue[i]->get_value();
-                }
-            }
             if ((b - a) < k)
                 k = (b - a);
             else if (k == -1)
                 k = (b - a);
         }
     }
-
     // Print
     std::cout << k << std::endl;
-
-    // Print
-    // for (auto it = input_list.begin(); it != input_list.end(); it++)
-    //     std::cout << "[" << it->get_team_number() << ", " << it->get_value() << "]" << std::endl;
-
-    // Print
-
-    // Finalize Variable
-    // for (auto it = input_list.begin(); it != input_list.end(); it++)
-    //    delete (&it);
-
     // Return
     return 0;
 }
