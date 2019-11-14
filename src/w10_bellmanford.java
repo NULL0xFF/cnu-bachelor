@@ -1,8 +1,7 @@
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 
-public class w10_dijkstra {
+public class w10_bellmanford {
 
 	public final static int INF = Integer.MAX_VALUE;
 
@@ -33,68 +32,55 @@ public class w10_dijkstra {
 			}
 		}
 
-		// Check Graph
-		// Iterator<String> graphIterator = graph.keySet().iterator();
-		// Iterator<String> graphIteratorInner;
-		// while (graphIterator.hasNext()) {
-		// s1 = graphIterator.next();
-		// System.out.printf("%s: ", s1);
-		// graphIteratorInner = graph.get(s1).keySet().iterator();
-		// while (graphIteratorInner.hasNext()) {
-		// s2 = graphIteratorInner.next();
-		// System.out.printf("(%s %d) ", s2, graph.get(s1).get(s2));
-		// }
-		// System.out.printf("\n");
-		// }
-
 		// Input Source and Destination
 		String source = inputStream.next();
 		String destination = inputStream.next();
 
-		/* Dijkstra Algorithm */
+		/* Bellman-Ford Algorithm */
 		// Initialize
 		HashMap<String, Integer> dist = new HashMap<String, Integer>();
 		HashMap<String, String> prev = new HashMap<String, String>();
-		HashSet<String> Q = new HashSet<String>();
 
-		// Set-Up
-		dist.put(source, 0); // Distance from source to source is set to 0
-		prev.put(source, "");
+		// Step 1:
 		for (String key : graph.keySet()) {
-			if (!key.equals(source)) {
-				dist.put(key, INF); // Unknown distance function from source to each node set to infinity
-				prev.put(key, "");
+			if (key == source || key.equals(source)) {
+				dist.put(key, 0);
+			} else {
+				dist.put(key, null);
 			}
-			Q.add(key); // All nodes initially in Q
+			prev.put(key, "");
 		}
 
-		// Loop
-		String minNode;
-		int minNodeDistance;
-		int altDistance;
-		while (!Q.isEmpty()) {
-			minNode = "";
-			minNodeDistance = INF;
-			for (String node : Q) { // In the first run-through, this vertex is the source node
-				if (dist.get(node) < minNodeDistance) {
-					minNode = node;
-					minNodeDistance = dist.get(node);
-				}
-			}
-			Q.remove(minNode);
-
-			HashMap<String, Integer> minNodeMap = graph.get(minNode);
-			for (String key : minNodeMap.keySet()) {
-				if (Q.contains(key)) {
-					altDistance = minNodeDistance + graph.get(minNode).get(key);
-					if (altDistance < dist.get(key)) {
-						dist.replace(key, altDistance);
-						prev.put(key, minNode);
+		// Step 2:
+		for (int i = 1; i < graph.keySet().size(); i++) {
+			for (String u : graph.keySet()) {
+				for (String v : graph.get(u).keySet()) {
+					if (dist.get(v) == null && dist.get(u) != null) {
+						dist.put(v, dist.get(u) + graph.get(u).get(v));
+						dist.replace(v, dist.get(u) + graph.get(u).get(v));
+						prev.replace(v, u);
+					} else if (dist.get(v) != null && dist.get(u) != null) {
+						if (dist.get(v) > dist.get(u) + graph.get(u).get(v)) {
+							dist.put(v, dist.get(u) + graph.get(u).get(v));
+							dist.replace(v, dist.get(u) + graph.get(u).get(v));
+							prev.replace(v, u);
+						}
 					}
 				}
 			}
 		}
-		/* End of Dijkstra Algorithm */
+
+		// Step 3:
+		for (String u : graph.keySet()) {
+			for (String v : graph.get(u).keySet()) {
+				if (dist.get(v) > dist.get(u) + graph.get(u).get(v)) {
+					System.out.printf("Negative Cycle!");
+					inputStream.close();
+					return;
+				}
+			}
+		}
+		/* End of Bellman-Ford Algorithm */
 
 		// Previous Search
 		StringBuilder builder = new StringBuilder();
