@@ -1,10 +1,28 @@
 #include "json_dict.h"
 
-// PUBLIC
-json_dict::json_dict() {}
-json_object *json_object::operator[](json_object *key)
+/* Private */
+/* Public */
+json_object *json_dict::parse(const char *input, int length)
 {
+    json_dict *dict = new json_dict();
+    int index = 1;
+    int depth = 0;
+    bool innerParseFlag = false;
+    while (index < length)
+    {
+        switch (input[json_object::_index + index])
+        {
+        case ' ':
+        case '\n':
+        case '\r':
+        case '\t':
+            // WHITESPACE
+            break;
+        
+        case '}':
+            if (depth == 0)
+                return dict;
+        }
+        index++;
+    }
 }
-// PRIVATE
-
-// PUBLIC STATIC
