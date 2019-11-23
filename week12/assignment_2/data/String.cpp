@@ -1,70 +1,62 @@
 #include "String.h"
 
-/* Private */
 String::String(const std::string &str) { this->_val = str; }
-/* Public */
 std::string String::val() { return this->_val; }
 void String::set_val(const std::string &str) { this->_val = str; }
+json_object::_type String::type() { return this->STRING; }
+std::string String::to_string() { return this->_val; }
+
+// STATIC
 json_object *String::parse(const char *input, int length, char base)
 {
+    // Initialize
     std::string str;
-    str = str + base;
-    int index = 1;
-    while (index < length)
+    str += base;
+    json_object::_index++;
+    int offset = 0;
+
+    // Main Loop
+    while (json_object::_index + offset < json_object::_index + length - 1)
     {
-        switch (input[json_object::_index + index])
+        switch (input[json_object::_index + offset])
         {
         case '\\':
-            // CONTROL CHARACTER
-            index++;
-            switch (input[json_object::_index + index])
+            // Control Characters
+            switch (input[json_object::_index + offset + 1])
             {
-            case '"':
-                if (base == '"')
-                    throw std::runtime_error("String control base exception");
-                str = str + '"';
-                break;
             case '\'':
                 if (base == '\'')
-                    throw std::runtime_error("String control base exception");
-                str = str + '\'';
+                    throw std::runtime_error("String parse failed due to base comparison");
+                str += '\'';
                 break;
-            case '\\':
-                str = str + '\\';
+            case '"':
+                if (base == '"')
+                    throw std::runtime_error("String parse failed due to base comparison");
+                str += '"';
                 break;
-            case '/':
-                str = str + '/';
-                break;
-            case 'b':
-                str = str + '\b';
-                break;
-            case 'f':
-                str = str + '\f';
-                break;
-            case 'n':
-                str = str + '\n';
-                break;
-            case 'r':
-                str = str + '\r';
-                break;
-            case 't':
-                str = str + '\t';
-                break;
-            case 'u':
-                // UNICODE
-                throw std::runtime_error("String control unicord not implemented");
+            default:
+                throw std::runtime_error("String parse failed due to control character");
             }
+            offset++;
             break;
+        case '\'':
+        case '\"':
+            if (input[json_object::_index + offset] == base)
+                throw std::runtime_error("String parse failed due to length mismatch");
         default:
-            str = str + input[json_object::_index + index];
+            str += input[json_object::_index + offset];
         }
-        index++;
+        offset++;
     }
-    json_object::_index = json_object::_index + length;
+
+    // JSON Format Validation
+    if (input[json_object::_index + offset] != base)
+        throw std::runtime_error("String parse failed due to wrong JSON format");
+
+    // Finalize
+    str += base;
+    json_object::_index += offset + 1;
+
+    // Return
     return new String(str);
-}
-json_object::_type String::type() { return this->STRING; }
-std::string String::to_string()
-{
-    return this->_val;
 }

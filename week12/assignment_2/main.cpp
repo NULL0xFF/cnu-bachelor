@@ -53,16 +53,16 @@ int main()
     //     std::cout << tostr << std::endl;
     // }
 
-    // {
-    //     std::string str("[1, 2, 3, 4, 5]");
-    //     json_list* obj = dynamic_cast<json_list*>(json_object::parse(str));
-    //     for (int i = 0; i < 5; ++i) {
-    //         std::cout << (*obj)[i]->to_string() << ", ";
-    //     }
-    //     std::cout << std::endl;
-    //     std::string tostr = obj->to_string();
-    //     std::cout << tostr << std::endl;
-    // }
+    {
+        std::string str("[1, 2, 3, 4, 5]");
+        json_list* obj = dynamic_cast<json_list*>(json_object::parse(str));
+        for (int i = 0; i < 5; ++i) {
+            std::cout << (*obj)[i]->to_string() << ", ";
+        }
+        std::cout << std::endl;
+        std::string tostr = obj->to_string();
+        std::cout << tostr << std::endl;
+    }
 
     // {
     //     std::string str("{'a': 'b', 'b': 'c', 'c': [1, 2, 3, [4], '5',], 1:3}");

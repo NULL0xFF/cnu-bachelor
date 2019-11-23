@@ -1,63 +1,44 @@
 #include "Integer.h"
 
-/* Private */
 Integer::Integer(int value) { this->_val = value; }
-/* Public */
 int Integer::val() { return this->_val; }
 void Integer::set_val(const int &value) { this->_val = value; }
+json_object::_type Integer::type() { return this->INT; }
+std::string Integer::to_string() { return std::to_string(this->_val); }
+
+// STATIC
 json_object *Integer::parse(const char *input, int length)
 {
+    // Check Sign
     bool signFlag = false;
     if (input[json_object::_index] == '-')
     {
         signFlag = true;
         json_object::_index++;
     }
-    int value = 0;
-    int bit = 0;
-    for (int i = (signFlag) ? 1 : 0; i < length; i++)
+
+    // Initialize
+    int offset = 0, value = 0, bit = 0;
+    while (json_object::_index + offset < json_object::_index + length)
     {
         switch (input[json_object::_index])
         {
-        case '0':
-            bit = 0;
-            break;
-        case '1':
-            bit = 1;
-            break;
-        case '2':
-            bit = 2;
-            break;
-        case '3':
-            bit = 3;
-            break;
-        case '4':
-            bit = 4;
-            break;
-        case '5':
-            bit = 5;
-            break;
-        case '6':
-            bit = 6;
-            break;
-        case '7':
-            bit = 7;
-            break;
-        case '8':
-            bit = 8;
-            break;
-        case '9':
-            bit = 9;
+        case '0' ... '9':
+            bit = input[json_object::_index] - 48;
+            value = value * 10;
+            value += bit;
             break;
         default:
-            throw std::runtime_error("Integer parse failed");
+            throw std::runtime_error("Integer parse failed due to wrong JSON Format");
         }
-        value = (value * 10) + bit;
-        json_object::_index++;
+        offset++;
     }
+
+    // Finalize
     if (signFlag)
         value = -value;
+    json_object::_index += offset;
+
+    // Return
     return new Integer(value);
 }
-json_object::_type Integer::type() { return this->INT; }
-std::string Integer::to_string() { return std::to_string(this->_val); }

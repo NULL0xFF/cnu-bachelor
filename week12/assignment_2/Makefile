@@ -1,7 +1,7 @@
 .SUFFIXES: .cpp .o
 
-# json_list.o json_dict.o
-OBJECTS = json_object.o data/String.o data/Integer.o
+# OBJECTS = json_object.o json_list.o json_dict.o data/Integer.o data/String.o
+OBJECTS = json_object.o json_list.o data/Integer.o data/String.o
 MAIN = main.o $(OBJECTS)
 
 CXX = g++

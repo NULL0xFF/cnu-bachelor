@@ -3,7 +3,6 @@
 
 #include <string>
 #include <iostream>
-#include <exception>
 
 class json_object
 {
@@ -20,10 +19,12 @@ protected:
     };
 
     static int _index;
+
     static json_object *parse(const char *, int length);
 
 public:
     static json_object *parse(const std::string &);
+
     virtual _type type() = 0;
     virtual std::string to_string() = 0;
 };
