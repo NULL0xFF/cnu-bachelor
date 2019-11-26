@@ -1,4 +1,5 @@
 #include "json_list.h"
+#include "json_dict.h"
 #include "data/Integer.h"
 #include "data/String.h"
 
@@ -9,10 +10,10 @@ std::string json_list::to_string()
 {
     std::string str("[");
     int index;
-    for (index = 0; index < this->v.size(); index++)
+    for (index = 0; index < (int)this->v.size(); index++)
     {
         str += v[index]->to_string();
-        if (index + 1 < this->v.size())
+        if (index + 1 < (int) this->v.size())
             str += ", ";
     }
     str += "]";
@@ -22,10 +23,13 @@ std::string json_list::to_string()
 // STATIC
 json_object *json_list::parse(const char *input, int length)
 {
+    // Debug
+    // std::cout << "List Parse Before : " << json_object::_index << std::endl;
+
     // Initialize
     json_list *list = new json_list();
     json_object *value;
-    int baseIndex = json_object::_index, index, listIndex;
+    int baseIndex = json_object::_index, index, dictIndex, listIndex;
     json_object::_index++;
 
     // Main Loop
@@ -43,10 +47,39 @@ json_object *json_list::parse(const char *input, int length)
             break;
         case ',':
             // Next Element
-            if (list->v.size() == 0)
-                throw std::runtime_error("json_list parse failed due to wrong JSON format");
+            // if (list->v.size() == 0)
+            //     throw std::runtime_error("json_list parse failed due to wrong JSON format");
             json_object::_index++;
             break;
+        case '{':
+            // DICT
+            index++;
+            dictIndex = 0;
+            while (true)
+            {
+                if (input[json_object::_index + index] == '}')
+                {
+                    if (dictIndex == 0)
+                    {
+                        index++;
+                        break;
+                    }
+                    else
+                    {
+                        dictIndex--;
+                    }
+                }
+                else if (input[json_object::_index + index] == '{')
+                {
+                    dictIndex++;
+                }
+                index++;
+            }
+            value = json_dict::parse(input, index);
+            list->v.push_back(value);
+            break;
+        case '}':
+            throw std::runtime_error("json_list parse failed due to wrong JSON format (case '}')");
         case '[':
             // List
             index++;
@@ -62,9 +95,7 @@ json_object *json_list::parse(const char *input, int length)
                     }
                     else
                     {
-                        index++;
                         listIndex--;
-                        break;
                     }
                 }
                 else if (input[json_object::_index + index] == '[')
@@ -77,9 +108,7 @@ json_object *json_list::parse(const char *input, int length)
             list->v.push_back(value);
             break;
         case ']':
-            if (listIndex == 0)
-                throw std::runtime_error(std::to_string(json_object::_index));
-            break;
+            throw std::runtime_error("json_list parse failed due to wrong JSON format (case ']')");
         case '-':
             index++;
         case '0' ... '9':
@@ -111,10 +140,13 @@ json_object *json_list::parse(const char *input, int length)
 
     // JSON Format Validation
     if (input[json_object::_index] != ']')
-        throw std::runtime_error("json_list parse failed due to wrong JSON format");
+        throw std::runtime_error("json_list parse failed due to wrong JSON format (validation)");
 
     // Finalize
     json_object::_index++;
+
+    // Debug
+    // std::cout << "List Parse After : " << json_object::_index << std::endl;
 
     // Return
     return list;

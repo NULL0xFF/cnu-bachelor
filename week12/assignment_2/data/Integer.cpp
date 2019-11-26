@@ -9,6 +9,9 @@ std::string Integer::to_string() { return std::to_string(this->_val); }
 // STATIC
 json_object *Integer::parse(const char *input, int length)
 {
+    // Debug
+    // std::cout << "Integer Parse" << std::endl << "Before : " << json_object::_index << std::endl;
+
     // Check Sign
     bool signFlag = false;
     if (input[json_object::_index] == '-')
@@ -21,10 +24,10 @@ json_object *Integer::parse(const char *input, int length)
     int offset = 0, value = 0, bit = 0;
     while (json_object::_index + offset < json_object::_index + length)
     {
-        switch (input[json_object::_index])
+        switch (input[json_object::_index + offset])
         {
         case '0' ... '9':
-            bit = input[json_object::_index] - 48;
+            bit = input[json_object::_index + offset] - 48;
             value = value * 10;
             value += bit;
             break;
@@ -38,6 +41,9 @@ json_object *Integer::parse(const char *input, int length)
     if (signFlag)
         value = -value;
     json_object::_index += offset;
+
+    // Debug
+    // std::cout << "After : " << json_object::_index << std::endl;
 
     // Return
     return new Integer(value);

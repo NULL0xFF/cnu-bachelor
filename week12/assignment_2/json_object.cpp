@@ -1,6 +1,6 @@
 #include "json_object.h"
+#include "json_dict.h"
 #include "json_list.h"
-// #include "json_dict.h"
 #include "data/String.h"
 #include "data/Integer.h"
 
@@ -11,35 +11,59 @@ json_object *json_object::parse(const char *input, int length)
 {
     // Initialize
     json_object::_index = 0;
-    json_object *obj;
-    int index = 0, listIndex;
+    json_object *obj = nullptr;
+    int index = 0, innerIndex;
 
     // Case By Case
     switch (input[json_object::_index])
     {
-    case '[':
+    case '{':
         // List
         index++;
-        listIndex = 0;
+        innerIndex = 0;
         while (true)
         {
-            if (input[json_object::_index + index] == ']')
+            if (input[json_object::_index + index] == '}')
             {
-                if (listIndex == 0)
+                if (innerIndex == 0)
                 {
                     index++;
                     break;
                 }
                 else
                 {
+                    innerIndex--;
+                }
+            }
+            else if (input[json_object::_index + index] == '{')
+            {
+                innerIndex++;
+            }
+            index++;
+        }
+        obj = json_dict::parse(input, index);
+        break;
+    case '[':
+        // List
+        index++;
+        innerIndex = 0;
+        while (true)
+        {
+            if (input[json_object::_index + index] == ']')
+            {
+                if (innerIndex == 0)
+                {
                     index++;
-                    listIndex--;
                     break;
+                }
+                else
+                {
+                    innerIndex--;
                 }
             }
             else if (input[json_object::_index + index] == '[')
             {
-                listIndex++;
+                innerIndex++;
             }
             index++;
         }
