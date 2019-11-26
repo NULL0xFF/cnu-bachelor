@@ -11,7 +11,8 @@ int json_object::_index = 0;
  * Pass input string as character pointer using
  * c_str() function and length with length() function
  */
-json_object *json_object::parse(const std::string &str) {
+json_object *json_object::parse(const std::string &str)
+{
     /**
      * (re)Initialize static field as this field shared
      * inside program until program stops.
@@ -26,16 +27,24 @@ json_object *json_object::parse(const std::string &str) {
  */
 json_object *json_object::parse(
     const char *input, // char pointer which was a string
-    int length // length of string used to limit char pointer
+    int length         // length of string used to limit char pointer
 )
 {
     /* Initialize Variables */
     json_object *obj = nullptr; // A object to be returned when parsing has done
-    int innerCallNumber = 0; // DICT and LIST parsing stack variable
-    int offset = 0; // Offset variable to calculate parsed string's length
+    int innerCallNumber = 0;    // DICT and LIST parsing stack variable
+    int offset = 0;             // Offset variable to calculate parsed string's length
 
+SWITCH:
     switch (input[json_object::_index])
     {
+    case ' ':
+    case '\n':
+    case '\t':
+    case '\r':
+        // Whitespace
+        json_object::_index++;
+        goto SWITCH;
     case '{':
         // DICT
         offset++;
