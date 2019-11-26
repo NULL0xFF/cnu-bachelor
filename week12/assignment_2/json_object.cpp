@@ -34,11 +34,10 @@ json_object *json_object::parse(
     int innerCallNumber = 0; // DICT and LIST parsing stack variable
     int offset = 0; // Offset variable to calculate parsed string's length
 
-    // Case By Case
     switch (input[json_object::_index])
     {
     case '{':
-        // List
+        // DICT
         offset++;
         innerCallNumber = 0;
         while (true)
@@ -64,7 +63,7 @@ json_object *json_object::parse(
         obj = json_dict::parse(input, offset);
         break;
     case '[':
-        // List
+        // LIST
         offset++;
         innerCallNumber = 0;
         while (true)
@@ -92,7 +91,7 @@ json_object *json_object::parse(
     case '-':
         offset++;
     case '0' ... '9':
-        // Integer
+        // INT
         while (true)
         {
             if (input[json_object::_index + offset] < '0' || '9' < input[json_object::_index + offset])
@@ -103,7 +102,7 @@ json_object *json_object::parse(
         break;
     case '\'':
     case '\"':
-        // String
+        // STRING
         offset++;
         while (true)
         {

@@ -3,10 +3,15 @@
 #include "data/String.h"
 #include "data/Integer.h"
 
-json_dict::json_dict() {}
+json_dict::json_dict() {} // json_dict Object Constructor
+
+/**
+ * Put key and value as a pair inside of vector v
+ * If there is same key inside v, change value of the pair
+ */
 void json_dict::put(json_object *key, json_object *val)
 {
-    int index = this->find(key);
+    int index = this->find(key); // Index of key inside vector v
     if (index == -1)
     {
         this->v.push_back(std::make_pair(key, val));
@@ -19,9 +24,14 @@ void json_dict::put(json_object *key, json_object *val)
     }
     throw std::runtime_error("json_dict put failed");
 }
+
+/**
+ * Return index of a pair with key inside of vector v
+ * If there is no pair with key, return -1
+ */
 int json_dict::find(json_object *key)
 {
-    int index = 0;
+    int index = 0; // Index variable for vector v
     for (auto it = v.begin(); it != v.end(); it++)
     {
         // Iterate next element when iterator->first's type is not equals to key's type
@@ -56,17 +66,20 @@ int json_dict::find(json_object *key)
     return -1;
 }
 
-// Static
+/**
+ * json_dict parse static function
+ */
 json_object *json_dict::parse(const char *input, int length)
 {
-    // Debug
-    // std::cout << "Dict Parse Before : " << json_object::_index << std::endl;
-
     // Initialize
-    json_dict *dict = new json_dict();
-    json_object *key = nullptr, *value = nullptr;
-    int baseIndex = json_object::_index, index, dictIndex, listIndex;
-    bool pairFlag = false;
+    json_dict *dict = new json_dict();   // A json_dict object to be return when parsing has done
+    json_object *key = nullptr;          // json_object key pointer
+    json_object *value = nullptr;        // json_object value pointer
+    int baseIndex = json_object::_index; // Saving _index
+    int index;                           // Temporary index variable
+    int dictIndex;                       // Temporary dict depth variable
+    int listIndex;                       // Temporary list depth variable
+    bool pairFlag = false;               // Check whether make_pair is ready to go
     json_object::_index++;
 
     // Main Loop
