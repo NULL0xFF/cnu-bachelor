@@ -5,7 +5,8 @@
 #include "data/String.h"
 #include "data/Integer.h"
 
-int main()
+// Main function with JSON Parse test case
+int main(int argc, char *argv[])
 {
     {
         std::string str("{'a':'b'}");

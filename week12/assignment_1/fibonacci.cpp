@@ -1,5 +1,6 @@
 #include <iostream>
 
+// Fibonacci function with recursive programming
 int fibo(int i)
 {
     if (i <= 1)
@@ -7,6 +8,7 @@ int fibo(int i)
     return fibo(i - 1) + fibo(i - 2);
 }
 
+// Main function
 int main(int argc, char *argv[])
 {
     int i;
