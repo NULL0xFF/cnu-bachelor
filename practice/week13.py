@@ -4,6 +4,10 @@ class student:
         self.id = id
         self.major = major
 
+    def print(self):
+        print("Name : {}\tID : {}\tMajor : {}".format(
+            self.name, self.id, self.major))
+
 
 class MajorList:
     def __init__(self):
@@ -12,14 +16,41 @@ class MajorList:
     def addStudent(self, student):
         self.students.append(student)
 
+    def print(self):
+        for student in self.students:
+            student.print()
 
-def modifyStudentID(mList, name, _id):
-    for student in mList.students:
-        if(student.name == name):
-            student.id = id
+
+def modifyStudentNum(majorList, _name, _id):
+    for student in majorList.students:
+        if(student.name == _name):
+            student.id = _id
             return
-    return
 
 
-def modifyMajor(mList, _name, _major):
-    
+def modifyMajor(majorList, _name, _major):
+    for student in majorList.students:
+        if(student.name == _name):
+            student.major = _major
+            return
+
+
+def modifyAllMajor(majorList, _major):
+    for student in majorList.students:
+        student.major = _major
+
+
+mlist = MajorList()
+mlist.addStudent(student("go gil dong", 1, "kumdo"))
+mlist.addStudent(student("ho i dooly", 2, "archeology"))
+mlist.addStudent(student("jackson michol", 3, "music"))
+mlist.print()
+print("########################################")
+modifyStudentNum(mlist, "ho i dooly", 4)
+mlist.print()
+print("########################################")
+modifyMajor(mlist, "ho i dooly", "magic")
+mlist.print()
+print("########################################")
+modifyAllMajor(mlist, "cse")
+mlist.print()
