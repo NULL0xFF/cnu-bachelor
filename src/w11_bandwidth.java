@@ -8,9 +8,11 @@ public class w11_bandwidth {
 			HashMap<String, String> parent) {
 		HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
 
-		for (String node : graph.keySet())
-			visited.put(node, false);
-
+		// for (String node : graph.keySet())
+		// visited.put(node, false);
+		
+		parent.clear();
+		
 		ArrayList<String> queue = new ArrayList<String>();
 		String nodeString;
 		queue.add(startNode);
@@ -32,6 +34,7 @@ public class w11_bandwidth {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private static boolean capacityCheck(HashMap<String, HashMap<String, Integer>> f) {
 		for (String startNode : f.keySet()) {
 			for (String endNode : f.get(startNode).keySet()) {
@@ -72,14 +75,17 @@ public class w11_bandwidth {
 
 		HashMap<String, String> parentMap = new HashMap<String, String>(); // Used by BFS, store Path
 		int max_flow = 0;
-		String nodeV, nodeU;
+		String currentNode = null;
+		String forwardNode = null;
 		while (bfs(f, serverNode, clientNode, parentMap)) {
 			int path_flow = Integer.MAX_VALUE;
-			nodeV = parentMap.get(clientNode);
-			while(!nodeV.equals(serverNode)) {
-				nodeU = parentMap.get(nodeV);
-				path_flow = Math.min(path_flow, graph.get(nodeU).get(nodeV));
+			currentNode = serverNode;
+			while (!currentNode.equals(clientNode)) {
+				forwardNode = parentMap.get(currentNode);
+				path_flow = Math.min(path_flow, graph.get(currentNode).get(forwardNode));
+				currentNode = forwardNode;
 			}
+			System.out.printf("%d\n", path_flow);
 		}
 		return max_flow;
 	}
