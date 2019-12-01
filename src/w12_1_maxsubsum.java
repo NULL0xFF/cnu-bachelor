@@ -13,7 +13,7 @@ public class w12_1_maxsubsum {
 			a[i] = inputStreamScanner.nextInt();
 
 		HashSet<Integer> cache = new HashSet<>();
-		
+
 		int subSum = 0;
 		for (int i = 0; i < n; i++) {
 			subSum = a[i];
@@ -27,7 +27,7 @@ public class w12_1_maxsubsum {
 		for (int i : cache) {
 			maxSubSum = Math.max(maxSubSum, i);
 		}
-		
+
 		System.out.println(maxSubSum);
 		inputStreamScanner.close();
 	}

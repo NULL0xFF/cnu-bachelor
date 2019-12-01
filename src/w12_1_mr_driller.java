@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class w12_1_mr_driller {
@@ -18,14 +17,9 @@ public class w12_1_mr_driller {
 			}
 		}
 
-//		for (int i = 0; i < ROW; i++) {
-//			for (int j = 0; j < COLUMN; j++)
-//				System.out.printf("%d ", map[i][j]);
-//			System.out.printf("\n");
-//		}
 		int k = -1;
 		for (int i = 0; i < COLUMN; i++) {
-			k = Math.max(k, drill(map, ROW-1, i));
+			k = Math.max(k, drill(map, ROW - 1, i));
 		}
 		System.out.println(k);
 
@@ -41,7 +35,7 @@ public class w12_1_mr_driller {
 			cache[_row][_column] = map[_row][_column];
 			return map[_row][_column];
 		}
-		
+
 		int max = -1;
 		int drilling;
 		for (int pointColumn = _column - 1; pointColumn < _column + 2; pointColumn++) {
@@ -58,7 +52,7 @@ public class w12_1_mr_driller {
 				max = Math.max(max, cache[_row - 1][pointColumn] + map[_row][_column]);
 			}
 		}
-		
+
 		cache[_row][_column] = max;
 		return max;
 	}
