@@ -26,74 +26,64 @@ public class w13_position {
 				listPointer.add(inputStreamScanner.next());
 		}
 
-		// favoriteMap.forEach((player, list) -> {
-		// System.out.printf("%s: ", player);
-		// list.forEach(position -> {
-		// System.out.printf("%s ", position);
-		// });
-		// System.out.printf("\n");
-		// });
-		// rankMap.forEach((position, list) -> {
-		// System.out.printf("%s: ", position);
-		// list.forEach(player -> {
-		// System.out.printf("%s ", player);
-		// });
-		// System.out.printf("\n");
-		// });
-
-		StableMarriageProblem(favoriteMap, rankMap, numberOfPosition);
-
+		HashMap<String, String> matchMap = StableMarriageProblem(favoriteMap, rankMap);
+		System.out.println(matchMap.get(inputStreamScanner.next()));
+		
 		inputStreamScanner.close();
 	}
 
-	private static HashMap<String, String> StableMarriageProblem(HashMap<String, ArrayList<String>> ladies,
-			HashMap<String, ArrayList<String>> gentlemen, int number) {
+	private static HashMap<String, String> StableMarriageProblem(HashMap<String, ArrayList<String>> gentlemen,
+			HashMap<String, ArrayList<String>> ladies) {
 
-		HashMap<String, String> matchMap = new HashMap<String, String>();
-		HashMap<String, ArrayList<String>> ladyQueueMap = new HashMap<>();
-
-		boolean flag = true;
+		HashMap<String, String> matchMap = new HashMap<>();
+		HashMap<String, ArrayList<String>> ladyQueueMap;
+		ArrayList<String> unselectedList, selectedList;
 
 		while (true) {
 			// Escape
-			if (matchMap.size() == number)
+			if (matchMap.size() >= gentlemen.size() - 1)
 				break;
 
-			// Add gentlemen to ladies' queue
-			for (String gentleman : gentlemen.keySet()) {
-				if (!gentlemen.get(gentleman).isEmpty()) {
-					if (!ladyQueueMap.containsKey(gentlemen.get(gentleman).get(0)))
-						ladyQueueMap.put(gentlemen.get(gentleman).get(0), new ArrayList<>());
-					ladyQueueMap.get(gentlemen.get(gentleman).get(0)).add(gentleman);
-				}
-			}
+			// Initialize
+			ladyQueueMap = new HashMap<>();
+			unselectedList = new ArrayList<>();
+			selectedList = new ArrayList<>();
 
-			flag = true;
+			// Initialize queue
+			for (String lady : ladies.keySet())
+				ladyQueueMap.put(lady, new ArrayList<String>());
 
-			for (String lady : ladies.keySet()) {
-				while (true) {
-					if (!ladyQueueMap.containsKey(lady))
-						break;
-					if (ladyQueueMap.get(lady).isEmpty())
-						break;
-					if (ladies.get(lady).get(0).equals(ladyQueueMap.get(lady).get(0))) {
+			// Register queue
+			for (String gentleman : gentlemen.keySet())
+				ladyQueueMap.get(gentlemen.get(gentleman).get(0)).add(gentleman);
+
+
+			// Check queue
+			for (String lady : ladyQueueMap.keySet()) {
+				while (!ladyQueueMap.get(lady).isEmpty()) {
+					if (ladyQueueMap.get(lady).get(0).equals(ladies.get(lady).get(0))) {
 						matchMap.put(ladyQueueMap.get(lady).get(0), lady);
-						break;
+						selectedList.add(ladyQueueMap.get(lady).remove(0));
 					} else {
-						// Denied
-						gentlemen.get(ladyQueueMap.get(lady).get(0)).remove(lady);
-						ladyQueueMap.get(lady).remove(0);
-						flag = false;
+						unselectedList.add(ladyQueueMap.get(lady).remove(0));
 					}
 				}
 			}
-
-			// No denial
-			if (flag)
-				break;
-
-			// Denied
-
+			
+			for(String unselected : unselectedList) {
+				gentlemen.get(unselected).remove(0);
+			}
+			
+		}
+		
+		for(String lady : ladies.keySet()) {
+			if(!matchMap.containsValue(lady)) {
+				for(String gentleman : gentlemen.keySet()) {
+					if(!matchMap.containsKey(gentleman)) {
+						matchMap.put(gentleman, lady);
+					}
+				}
+			}
 		}
 		return matchMap;
 	}
