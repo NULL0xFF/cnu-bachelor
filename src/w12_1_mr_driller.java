@@ -32,27 +32,35 @@ public class w12_1_mr_driller {
 	private static int drill(int[][] map, int _row, int _column) {
 		// Escape
 		if (_row == 0) {
+			// Save cache
 			cache[_row][_column] = map[_row][_column];
 			return map[_row][_column];
 		}
 
+		// Initialize
 		int max = -1;
 		int drilling;
+
+		// Algorithm
 		for (int pointColumn = _column - 1; pointColumn < _column + 2; pointColumn++) {
 			if (pointColumn < 0)
+				// Out of boundary
 				continue;
 			if (pointColumn >= COLUMN)
+				// Out of boundary
 				continue;
 			if (cache[_row - 1][pointColumn] == -1) {
-				// NO CACHE
+				// Cache is not valid
 				drilling = drill(map, _row - 1, pointColumn);
 				drilling = drilling + map[_row][_column];
 				max = Math.max(max, drilling);
 			} else {
+				// Cache is valid
 				max = Math.max(max, cache[_row - 1][pointColumn] + map[_row][_column]);
 			}
 		}
 
+		// Save cache
 		cache[_row][_column] = max;
 		return max;
 	}
