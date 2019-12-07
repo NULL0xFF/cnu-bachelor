@@ -1,5 +1,5 @@
 #include <iostream>
-#include "lib/os.hpp"
+#include "lib/os.h"
 
 int main(int argc, char *argv[])
 {
@@ -35,7 +35,13 @@ int main(int argc, char *argv[])
             std::cout << "←" << std::endl;
             break;
         case QUIT:
+            std::cout << "EXIT" << std::endl;
             flag = false;
+            break;
+        case UNDEFINED:
+            break;
+        default:
+            throw std::runtime_error("unknown key");
         }
     }
 
