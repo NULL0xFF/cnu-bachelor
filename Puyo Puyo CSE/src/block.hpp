@@ -1,7 +1,9 @@
+#ifndef BLOCK_HPP
+#define BLOCK_HPP
+
 #include <iostream>
 #include <stdexcept>
 #include <string>
-#include "point.hpp"
 
 enum class BlockType {
 	BLANK,
@@ -9,6 +11,17 @@ enum class BlockType {
 	RED,
 	GREEN,
 	BLUE
+};
+
+class Point {
+public:
+	int x, y;
+	Point() : Point(0, 0) {}
+	explicit Point(int _x, int _y)
+	{
+		this->x = _x;
+		this->y = _y;
+	}
 };
 
 class Block
@@ -25,18 +38,18 @@ public:
 		this->height = h;
 		this->type = _type;
 	}
-	void move(int dx, int dy) {
-		this->p.x += dx;
-		this->p.y += dy;
-		if (this->p.x < 0)
-			this->p.x = 0;
-		else if (this->width <= this->p.x)
-			this->p.x = this->width - 1;
-		if (this->p.y < 0)
-			this->p.y = 0;
-		else if (this->height <= this->p.y)
-			this->p.y = this->height - 1;
-	}
+	//void move(int dx, int dy) {
+	//	this->p.x += dx;
+	//	this->p.y += dy;
+	//	if (this->p.x < 0)
+	//		this->p.x = 0;
+	//	else if (this->width <= this->p.x)
+	//		this->p.x = this->width - 1;
+	//	if (this->p.y < 0)
+	//		this->p.y = 0;
+	//	else if (this->height <= this->p.y)
+	//		this->p.y = this->height - 1;
+	//}
 	BlockType& get_type(void) {
 		return this->type;
 	}
@@ -58,3 +71,5 @@ public:
 		}
 	}
 };
+
+#endif // BLOCK_HPP

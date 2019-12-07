@@ -19,12 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="puyo\canvas.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\block.hpp" />
-    <ClInclude Include="src\point.hpp" />
-    <ClInclude Include="src\visual.hpp" />
+    <ClInclude Include="puyo\canvas.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
