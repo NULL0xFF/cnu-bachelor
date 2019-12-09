@@ -1,15 +1,22 @@
 #include <iostream>
 #include <stdexcept>
-#include "puyo/canvas.hpp"
+#include "puyo.hpp"
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-	try {
-		Canvas c(3, 3);
-	}
-	catch (std::exception e)
-	{
-		std::cerr << e.what() << std::endl;
-		exit(1);
-	}
+    try
+    {
+        Puyo p(5, 12);
+        p.start();
+        while (p.status())
+        {
+            // Wait for thread's stop
+            // Pulling status flag
+        }
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << e.what() << std::endl;
+        exit(1);
+    }
 }
