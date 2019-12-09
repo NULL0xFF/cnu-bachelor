@@ -39,7 +39,7 @@ private:
             if (kbhit())
             {
                 char ch = (getch() == 224) ? getch() : 0;
-                switch (static_char<Direction>(ch))
+                switch (static_cast<Direction>(ch))
                 {
                 case Direction::Up:
                     break;

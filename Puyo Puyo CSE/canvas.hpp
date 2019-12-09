@@ -20,9 +20,9 @@ class Group;
 class Canvas
 {
 private:
+    static std::mt19937_64 rnd;
+    static std::uniform_int_distribution<_int64> blockSizeDist;
     std::random_device rd;
-    std::mt19937_64 rnd;
-    std::uniform_int_distribution<_int64> blockSizeDist;
     std::uniform_int_distribution<_int64> blockTypeDist;
     Block ***blkArray;
     Group *control;
@@ -56,26 +56,17 @@ private:
                 flag = false;
         if (flag && !updated)
         {
-            for (int y = 0; y < 3; y++)
+            delete (control);
+            switch (static_cast<Group::Type>(this->blockTypeDist(rnd)))
             {
-                delete (blkArray[y][width / 2]);
-                switch (static_cast<Block::Type>(this->blockTypeDist(rnd)))
-                {
-                case Block::Type::Gray:
-                    blkArray[y][width / 2] = new GrayBlock();
-                    break;
-                case Block::Type::Red:
-                    blkArray[y][width / 2] = new RedBlock();
-                    break;
-                case Block::Type::Green:
-                    blkArray[y][width / 2] = new GreenBlock();
-                    break;
-                case Block::Type::Blue:
-                    blkArray[y][width / 2] = new BlueBlock();
-                    break;
-                default:
-                    throw std::runtime_error("unknown block type");
-                }
+            case Group::Type::Fold:
+                break;
+            case Group::Type::Tree:
+                break;
+            case Group::Type::Cross:
+                break;
+            default:
+                throw std::runtime_error("unknown block type");
             }
             updated = true;
         }
@@ -143,10 +134,17 @@ protected:
     Canvas *board;
 
 public:
+    enum Type
+    {
+        Fold = 1,
+        Tree = 2,
+        Cross = 3
+    };
     Group(Canvas *_board)
     {
         this->board = _board;
     };
+    virtual Group::Type getType(void) = 0;
 };
 
 class TreeGroup : public Group
@@ -155,7 +153,31 @@ private:
     Point topP, midP, botP;
 
 public:
-    TreeGroup(Canvas *_board) : Group(_board), topP(_board->getWidth() / 2, 0), midP(_board->getWidth() / 2, 1), botP(_board->getWidth() / 2, 2) {}
+    TreeGroup(Canvas *_board) : Group(_board), topP(_board->getWidth() / 2, 0), midP(_board->getWidth() / 2, 1), botP(_board->getWidth() / 2, 2)
+    {
+        for (int y = 0; y < 3; y++)
+        {
+            delete (blkArray[y][width / 2]);
+            switch (static_cast<Block::Type>(this->blockTypeDist(rnd)))
+            {
+            case Block::Type::Gray:
+                blkArray[y][width / 2] = new GrayBlock();
+                break;
+            case Block::Type::Red:
+                blkArray[y][width / 2] = new RedBlock();
+                break;
+            case Block::Type::Green:
+                blkArray[y][width / 2] = new GreenBlock();
+                break;
+            case Block::Type::Blue:
+                blkArray[y][width / 2] = new BlueBlock();
+                break;
+            default:
+                throw std::runtime_error("unknown block type");
+            }
+        }
+    }
+    Group::Type getType(void) { return Group::Type::Tree; }
 };
 
 #endif // CANVAS_HPP
