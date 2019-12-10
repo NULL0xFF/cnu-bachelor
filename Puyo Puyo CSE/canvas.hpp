@@ -20,8 +20,8 @@ class Group;
 class Canvas
 {
 private:
-    static std::mt19937_64 rnd;
-    static std::uniform_int_distribution<_int64> blockSizeDist;
+    std::mt19937_64 rnd;
+    std::uniform_int_distribution<_int64> blockSizeDist;
     std::random_device rd;
     std::uniform_int_distribution<_int64> blockTypeDist;
     Block ***blkArray;
@@ -56,18 +56,20 @@ private:
                 flag = false;
         if (flag && !updated)
         {
-            delete (control);
-            switch (static_cast<Group::Type>(this->blockTypeDist(rnd)))
-            {
-            case Group::Type::Fold:
-                break;
-            case Group::Type::Tree:
-                break;
-            case Group::Type::Cross:
-                break;
-            default:
-                throw std::runtime_error("unknown block type");
-            }
+            std::cout << "Create a Group here!" << std::endl;
+            // delete (control);
+            // switch (static_cast<Group::Type>(this->blockTypeDist(rnd)))
+            // {
+            // case Group::Type::Fold:
+            //     // break;
+            // case Group::Type::Cross:
+            //     // break;
+            // case Group::Type::Tree:
+            //     this->control = new TreeGroup(blkArray, width, height);
+            //     break;
+            // default:
+            //     throw std::runtime_error("unknown block type");
+            // }
             updated = true;
         }
     }
@@ -131,7 +133,8 @@ public:
 class Group
 {
 protected:
-    Canvas *board;
+    Block ***blkArray;
+    int width, height;
 
 public:
     enum Type
@@ -140,9 +143,11 @@ public:
         Tree = 2,
         Cross = 3
     };
-    Group(Canvas *_board)
+    Group(Block ***_blkArray, int _width, int _height)
     {
-        this->board = _board;
+        this->blkArray = _blkArray;
+        this->width = _width;
+        this->height = _height;
     };
     virtual Group::Type getType(void) = 0;
 };
@@ -153,29 +158,29 @@ private:
     Point topP, midP, botP;
 
 public:
-    TreeGroup(Canvas *_board) : Group(_board), topP(_board->getWidth() / 2, 0), midP(_board->getWidth() / 2, 1), botP(_board->getWidth() / 2, 2)
+    TreeGroup(Block ***_blkArray, int _width, int _height) : Group(_blkArray, _width, _height), topP(_width / 2, 0), midP(_width / 2, 1), botP(_width / 2, 2)
     {
-        for (int y = 0; y < 3; y++)
-        {
-            delete (blkArray[y][width / 2]);
-            switch (static_cast<Block::Type>(this->blockTypeDist(rnd)))
-            {
-            case Block::Type::Gray:
-                blkArray[y][width / 2] = new GrayBlock();
-                break;
-            case Block::Type::Red:
-                blkArray[y][width / 2] = new RedBlock();
-                break;
-            case Block::Type::Green:
-                blkArray[y][width / 2] = new GreenBlock();
-                break;
-            case Block::Type::Blue:
-                blkArray[y][width / 2] = new BlueBlock();
-                break;
-            default:
-                throw std::runtime_error("unknown block type");
-            }
-        }
+        // for (int y = 0; y < 3; y++)
+        // {
+        //     delete (blkArray[y][width / 2]);
+        //     switch (static_cast<Block::Type>(this->blockTypeDist(rnd)))
+        //     {
+        //     case Block::Type::Gray:
+        //         blkArray[y][width / 2] = new GrayBlock();
+        //         break;
+        //     case Block::Type::Red:
+        //         blkArray[y][width / 2] = new RedBlock();
+        //         break;
+        //     case Block::Type::Green:
+        //         blkArray[y][width / 2] = new GreenBlock();
+        //         break;
+        //     case Block::Type::Blue:
+        //         blkArray[y][width / 2] = new BlueBlock();
+        //         break;
+        //     default:
+        //         throw std::runtime_error("unknown block type");
+        //     }
+        // }
     }
     Group::Type getType(void) { return Group::Type::Tree; }
 };
