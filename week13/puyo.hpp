@@ -5,12 +5,14 @@
 #include <iostream>
 #include <thread>
 #include "lib/os.h"
+#include "canvas.hpp"
 
 class Puyo
 {
 private:
     std::thread _game;
-    bool isAlive;
+    Canvas board;
+    bool isAlive, isSynced, isInputed;
     int width, height;
 
     void run(void)
@@ -18,16 +20,20 @@ private:
         while (this->isAlive)
         {
             system(CLEAR);
-            this->stop();
+            board.draw();
             SLEEP(1); // Update every 1 second
+            board.update();
+            if (!board.isUpdated())
+                this->stop();
         }
     }
     void input(void)
     {
         while (this->isAlive)
         {
-            if (kbhit())
+            if (kbhit() && !isInputed)
             {
+                isInputed = true;
                 switch (get_dir_key())
                 {
                 case KEYBOARD::UP:
@@ -57,7 +63,7 @@ private:
     }
 
 public:
-    Puyo(int _width, int _height)
+    Puyo(int _width, int _height) : board(_width, _height)
     {
         this->width = _width;
         this->height = _height;

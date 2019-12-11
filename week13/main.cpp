@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
         Puyo p(5, 12);
         p.start();
         while (p.status())
-            continue; // Wait for the game to be stopped
+            SLEEP(1); // Pulling the game status every 1 second
     }
     catch (const std::exception &e)
     {
