@@ -65,7 +65,7 @@ KEYBOARD get_dir_key()
 char getch(void)
 {
     char buf = 0;
-    struct termios old = {0};
+    struct termios old;
     fflush(stdout);
     if (tcgetattr(0, &old) < 0)
         perror("tcsetattr()");
@@ -101,6 +101,15 @@ KEYBOARD get_dir_key()
 {
     switch (getch())
     {
+    case 'A':
+    case 'a':
+        return KEYBOARD::LEFT;
+    case 'S':
+    case 's':
+        return KEYBOARD::DOWN;
+    case 'D':
+    case 'd':
+        return KEYBOARD::RIGHT;
     case 'Q':
     case 'q':
         return KEYBOARD::ROTATE_LEFT;
@@ -110,6 +119,8 @@ KEYBOARD get_dir_key()
     case 27:
         switch (getch())
         {
+        case 27:
+            return KEYBOARD::QUIT;
         case 91:
             switch (getch())
             {
@@ -127,6 +138,10 @@ KEYBOARD get_dir_key()
         default:
             return KEYBOARD::UNDEFINED;
         }
+    case 32:
+    case 'X':
+    case 'x':
+        return KEYBOARD::SPACE;
     default:
         return KEYBOARD::UNDEFINED;
     }

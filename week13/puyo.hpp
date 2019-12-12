@@ -10,7 +10,7 @@
 class Puyo
 {
 private:
-    std::thread _game;
+    std::thread _game, _input;
     Canvas board;
     bool isAlive, isSynced, isInputed;
     int width, height;
@@ -24,41 +24,50 @@ private:
             SLEEP(1); // Update every 1 second
             board.update();
             if (!board.isUpdated())
-                this->stop();
+                stop();
         }
     }
     void input(void)
     {
         while (this->isAlive)
         {
-            if (kbhit() && !isInputed)
+            switch (get_dir_key())
             {
-                isInputed = true;
-                switch (get_dir_key())
-                {
-                case KEYBOARD::UP:
-                    break;
-                case KEYBOARD::DOWN:
-                    break;
-                case KEYBOARD::LEFT:
-                    break;
-                case KEYBOARD::RIGHT:
-                    break;
-                case KEYBOARD::ROTATE_LEFT:
-                    break;
-                case KEYBOARD::ROTATE_RIGHT:
-                    break;
-                case KEYBOARD::SPACE:
-                    break;
-                case KEYBOARD::QUIT:
-                    this->isAlive = false;
-                    break;
-                case KEYBOARD::UNDEFINED:
-                    break;
-                default:
-                    throw std::runtime_error("unknown input error");
-                }
+            case KEYBOARD::UP:
+                break;
+            case KEYBOARD::DOWN:
+                board.move(0, 1);
+                break;
+            case KEYBOARD::LEFT:
+                board.move(-1, 0);
+                break;
+            case KEYBOARD::RIGHT:
+                board.move(1, 0);
+                break;
+            case KEYBOARD::ROTATE_LEFT:
+                board.rotate(-90);
+                break;
+            case KEYBOARD::ROTATE_RIGHT:
+                board.rotate(90);
+                break;
+            case KEYBOARD::SPACE:
+                board.gravity();
+                while (board.isUpdated())
+                    board.gravity();
+                break;
+            case KEYBOARD::QUIT:
+                std::cout << "QUIT!!!" << std::endl;
+                this->stop();
+                break;
+            case KEYBOARD::UNDEFINED:
+                break;
+            default:
+                throw std::runtime_error("unknown input error");
             }
+            if (!isAlive)
+                break;
+            system(CLEAR);
+            board.draw();
         }
     }
 
@@ -68,6 +77,7 @@ public:
         this->width = _width;
         this->height = _height;
         this->isAlive = false;
+        this->isInputed = false;
     }
     void start(void)
     {
@@ -78,6 +88,7 @@ public:
         // Start thread
         this->isAlive = true;
         this->_game = std::thread(&Puyo::run, this);
+        this->_input = std::thread(&Puyo::input, this);
     }
     void stop(void)
     {
@@ -87,6 +98,7 @@ public:
 
         // Stop thread
         this->isAlive = false;
+        this->_input.detach();
         this->_game.detach();
     }
     bool status(void) { return this->_game.joinable(); }

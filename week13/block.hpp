@@ -6,7 +6,7 @@
 class Block
 {
 public:
-    enum Type
+    enum class Type
     {
         Blank,
         Gray,
@@ -14,33 +14,33 @@ public:
         Green,
         Blue
     };
-    virtual const Type getType() { return this->Blank; }
-    virtual const std::string toString() { return std::string("0"); }
+    virtual const Type getType() { return Block::Type::Blank; }
+    virtual const std::string toString() { return std::string("·"); }
 };
 
 class GrayBlock : public Block
 {
 public:
-    const Type getType() { return this->Gray; }
-    const std::string toString() { return std::string("1"); }
+    const Type getType() { return Block::Type::Gray; }
+    const std::string toString() { return std::string("※"); }
 };
 class RedBlock : public Block
 {
 public:
-    const Type getType() { return this->Red; }
-    const std::string toString() { return std::string("2"); }
+    const Type getType() { return Block::Type::Red; }
+    const std::string toString() { return std::string("■"); }
 };
 class GreenBlock : public Block
 {
 public:
-    const Type getType() { return this->Green; }
-    const std::string toString() { return std::string("3"); }
+    const Type getType() { return Block::Type::Green; }
+    const std::string toString() { return std::string("▲"); }
 };
 class BlueBlock : public Block
 {
 public:
-    const Type getType() { return this->Blue; }
-    const std::string toString() { return std::string("4"); }
+    const Type getType() { return Block::Type::Blue; }
+    const std::string toString() { return std::string("●"); }
 };
 
 #endif // BLOCK_HPP
