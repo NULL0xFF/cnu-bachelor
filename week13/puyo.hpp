@@ -28,6 +28,7 @@ private:
                 break;
             // Output
             canvas->clear();
+            std::cout << "Score:\t" << canvas->getScore() << std::endl;
             canvas->draw();
             // Sleep
             std::this_thread::sleep_for(std::chrono::nanoseconds(1000000000));
@@ -70,18 +71,17 @@ private:
             case 'Q':
             case 'q':
                 // Anti-Clockwise rotation
-                // canvas->rotation(-90);
+                canvas->rotate(270);
                 break;
             case 'E':
             case 'e':
                 // Clockwise rotation
-                // canvas->rotation(90);
+                canvas->rotate(90);
                 break;
             case 'X':
             case 'x':
                 // Gravity
                 canvas->gravity_max();
-                canvas->update();
                 break;
             case 27: // ESC, Exit the game
                 isAlive = false;
@@ -93,6 +93,7 @@ private:
 
             // Output
             canvas->clear();
+            std::cout << "Score:\t" << canvas->getScore() << std::endl;
             canvas->draw();
         }
     }
