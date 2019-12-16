@@ -21,26 +21,26 @@ public:
 class Block_Gray : public Block
 {
 public:
-    Type getType() { return Block::Type::Gray; }
-    std::string toString() { return std::string("■"); }
+    Type getType();
+    std::string toString();
 };
 class Block_Red : public Block
 {
 public:
-    Type getType() { return Block::Type::Red; }
-    std::string toString() { return std::string("\033[31m■\033[0m"); }
+    Type getType();
+    std::string toString();
 };
 class Block_Green : public Block
 {
 public:
-    Type getType() { return Block::Type::Green; }
-    std::string toString() { return std::string("\033[32m■\033[0m"); }
+    Type getType();
+    std::string toString();
 };
 class Block_Blue : public Block
 {
 public:
-    Type getType() { return Block::Type::Blue; }
-    std::string toString() { return std::string("\033[34m■\033[0m"); }
+    Type getType();
+    std::string toString();
 };
 
 #endif // BLOCK_HPP
