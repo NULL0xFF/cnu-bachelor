@@ -29,36 +29,6 @@ private:
     Canvas *canvas;
     int width, height, score, rotation;
 
-    bool contact()
-    {
-        switch (type)
-        {
-        case Group::Fold:
-            if (controlPoint->second + 1 >= height)
-                return true;
-            if (canvas->get(controlPoint->first - 1, controlPoint->second + 1)->getType() == Block::Type::Blank)
-                if (canvas->get(controlPoint->first, controlPoint->second + 1)->getType() == Block::Type::Blank)
-                    return false;
-            break;
-        case Group::Tree:
-            if (controlPoint->second + 2 >= height)
-                return true;
-            if (canvas->get(controlPoint->first, controlPoint->second + 2)->getType() == Block::Type::Blank)
-                return false;
-            break;
-        case Group::Cross:
-            if (controlPoint->second + 2 >= height)
-                return true;
-            if (canvas->get(controlPoint->first - 1, controlPoint->second + 1)->getType() == Block::Type::Blank)
-                if (canvas->get(controlPoint->first + 1, controlPoint->second + 1)->getType() == Block::Type::Blank)
-                    if (canvas->get(controlPoint->first, controlPoint->second + 2)->getType() == Block::Type::Blank)
-                        return false;
-            break;
-        default:
-            return true;
-        }
-        return true;
-    }
     std::vector<std::pair<int, int> *> *adjacent(Block::Type t, int x, int y)
     {
         std::vector<std::pair<int, int> *> *list = new std::vector<std::pair<int, int> *>();
@@ -92,8 +62,36 @@ private:
         }
         return list;
     }
-
-public:
+    bool contact()
+    {
+        switch (type)
+        {
+        case Group::Fold:
+            if (controlPoint->second + 1 >= height)
+                return true;
+            if (canvas->get(controlPoint->first - 1, controlPoint->second + 1)->getType() == Block::Type::Blank)
+                if (canvas->get(controlPoint->first, controlPoint->second + 1)->getType() == Block::Type::Blank)
+                    return false;
+            break;
+        case Group::Tree:
+            if (controlPoint->second + 2 >= height)
+                return true;
+            if (canvas->get(controlPoint->first, controlPoint->second + 2)->getType() == Block::Type::Blank)
+                return false;
+            break;
+        case Group::Cross:
+            if (controlPoint->second + 2 >= height)
+                return true;
+            if (canvas->get(controlPoint->first - 1, controlPoint->second + 1)->getType() == Block::Type::Blank)
+                if (canvas->get(controlPoint->first + 1, controlPoint->second + 1)->getType() == Block::Type::Blank)
+                    if (canvas->get(controlPoint->first, controlPoint->second + 2)->getType() == Block::Type::Blank)
+                        return false;
+            break;
+        default:
+            return true;
+        }
+        return true;
+    }
     bool create()
     {
         // Intialize
@@ -219,29 +217,6 @@ public:
         rotation = 0;
         return true;
     }
-    Visual(int w, int h) : rd(), rnd(rd()), blockGroupDistribution(1, 3), blockTypeDistribution(1, 4)
-    {
-        width = w;
-        height = h;
-        score = 0;
-        rotation = 0;
-        type = Group::Null;
-        canvas = new Canvas(width, height);
-    }
-    void draw(void)
-    {
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-                std::cout << canvas->get(x, y)->toString() << "  ";
-            std::cout << std::endl;
-        }
-    }
-    void clear(void)
-    {
-        if (system("clear"))
-            throw std::runtime_error("visual clear failed");
-    }
     bool collide(void)
     {
         clear();
@@ -297,6 +272,31 @@ public:
                 }
             }
         return collision;
+    }
+
+public:
+    Visual(int w, int h) : rd(), rnd(rd()), blockGroupDistribution(1, 3), blockTypeDistribution(1, 4)
+    {
+        width = w;
+        height = h;
+        score = 0;
+        rotation = 0;
+        type = Group::Null;
+        canvas = new Canvas(width, height);
+    }
+    void draw(void)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+                std::cout << canvas->get(x, y)->toString() << "  ";
+            std::cout << std::endl;
+        }
+    }
+    void clear(void)
+    {
+        if (system("clear"))
+            throw std::runtime_error("visual clear failed");
     }
     bool gravity(void)
     {
@@ -497,15 +497,15 @@ public:
             }
             break;
         case Group::Tree:
-            if ((controlPoint->first + dx < 0) ||
-                (controlPoint->first + dx >= width) ||
-                (controlPoint->second - 1 + dy < 0) ||
-                (controlPoint->second + 1 + dy >= height))
-                return false;
             switch (rotation % 360)
             {
             case 0:
             case 180:
+                if ((controlPoint->first + dx < 0) ||
+                    (controlPoint->first + dx >= width) ||
+                    (controlPoint->second - 1 + dy < 0) ||
+                    (controlPoint->second + 1 + dy >= height))
+                    return false;
                 if (dx == -1 && dy == 0)
                 {
                     for (int y = -1; y < 2; y++)
@@ -535,6 +535,11 @@ public:
                 break;
             case 90:
             case 270:
+                if ((controlPoint->first - 1 + dx < 0) ||
+                    (controlPoint->first + 1 + dx >= width) ||
+                    (controlPoint->second + dy < 0) ||
+                    (controlPoint->second + dy >= height))
+                    return false;
                 if (dx == -1 && dy == 0)
                 {
                     if (canvas->get(controlPoint->first - 2, controlPoint->second)->getType() != Block::Type::Blank)
@@ -657,6 +662,10 @@ public:
                 {
                 case 0:
                 case 180:
+                    if (controlPoint->first - 1 < 0)
+                        return false;
+                    if (controlPoint->first + 1 >= width)
+                        return false;
                     for (int y = -1; y < 2; y++)
                     {
                         if (canvas->get(controlPoint->first - 1, controlPoint->second + y)->getType() != Block::Type::Blank)
@@ -737,6 +746,10 @@ public:
                 {
                 case 0:
                 case 180:
+                    if (controlPoint->first - 1 < 0)
+                        return false;
+                    if (controlPoint->first + 1 >= width)
+                        return false;
                     for (int y = -1; y < 2; y++)
                     {
                         if (canvas->get(controlPoint->first - 1, controlPoint->second + y)->getType() != Block::Type::Blank)
