@@ -1,17 +1,21 @@
 #include <unistd.h>
 #include <iostream>
-#include "visual.hpp"
+#include "puyo.hpp"
 
 int main(void)
 {
-    Visual v(10, 10);
-    while (true)
+    try
     {
-        if(!v.update())
-            break;
-        v.draw();
-        v.move(-1,0);
-        sleep(1);
+        Puyo p(5, 12);
+        p.start();
+        p.wait();
+        std::cout << std::endl
+                  << "GAME OVER" << std::endl
+                  << "Total Score : " << p.score() << std::endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
     }
 
     return 0;

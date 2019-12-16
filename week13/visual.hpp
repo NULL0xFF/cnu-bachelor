@@ -193,7 +193,6 @@ public:
     }
     void draw(void)
     {
-        clear();
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -385,6 +384,7 @@ public:
         }
         return true;
     }
+    int getScore() { return score; }
 };
 
 #endif // VISUAL_HPP
