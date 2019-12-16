@@ -1,201 +1,37 @@
 #ifndef CANVAS_HPP
 #define CANVAS_HPP
 
-#include <time.h>
-#include <iostream>
-#include <queue>
-#include <random>
-#include <stdexcept>
-#include <vector>
-#include "point.hpp"
 #include "block.hpp"
-#include "group.hpp"
 
 class Canvas
 {
 private:
-    std::random_device rd;
-    std::mt19937_64 rnd;
-    std::uniform_int_distribution<long long int> blockTypeDist;
-    Block ***blkArray;
-    Group *blkGroup;
-    bool updated;
-    int width, height, score;
-
-    bool isMovable(int x, int y, int dx, int dy)
-    {
-        if (x < 0 || width <= x)
-            return false;
-        else if (y < 0 || height <= y)
-            return false;
-
-        if (x + dx < 0 || width <= x + dx)
-            return false;
-        else if (y + dy < 0 || height <= y + dy)
-            return false;
-
-        if (blkArray[y + dy][x + dx] == nullptr)
-            return true;
-        else if (blkArray[y + dy][x + dx]->getType() != Block::Type::Blank)
-            return false;
-
-        return true;
-    }
-    void create(void)
-    {
-        if (updated)
-            return;
-        for (int y = 0; y < 3; y++)
-            if (blkArray[y][width / 2]->getType() != Block::Type::Blank)
-                return;
-        if (blkGroup != nullptr)
-            delete (blkGroup);
-        blkGroup = new TreeGroup(blkArray, width, height);
-        updated = true;
-    }
-    std::vector<Point *> *adjacent(int x, int y)
-    {
-        std::vector<Point *> *list = new std::vector<Point *>();
-
-        if (x - 1 >= 0)
-            if (blkArray[y][x - 1]->getType() == blkArray[y][x]->getType())
-                list->push_back(new Point(x - 1, y));
-        if (x + 1 < this->width)
-            if (blkArray[y][x + 1]->getType() == blkArray[y][x]->getType())
-                list->push_back(new Point(x + 1, y));
-        if (y - 1 >= 0)
-            if (blkArray[y - 1][x]->getType() == blkArray[y][x]->getType())
-                list->push_back(new Point(x, y - 1));
-        if (y + 1 < this->height)
-            if (blkArray[y + 1][x]->getType() == blkArray[y][x]->getType())
-                list->push_back(new Point(x, y + 1));
-        return list;
-    }
-
-    /* Possible Memory Leak Code */
-    bool collide(void)
-    {
-        bool result = false;
-        for (int y = height - 1; y >= 0; y--)
-            for (int x = 0; x < width; x++)
-            {
-                if (blkArray[y][x]->getType() == Block::Type::Blank)
-                    continue;
-                Point *p = nullptr;
-                p = new Point(x, y);
-                std::vector<Point *> visited;
-                std::queue<Point *> queued;
-                std::vector<Point *> *list = nullptr;
-                queued.push(p);
-                while (!queued.empty())
-                {
-                    p = queued.front();
-                    queued.pop();
-                    bool flag = true;
-                    for (auto it = visited.begin(); it != visited.end(); it++)
-                        if ((*it)->x == p->x && (*it)->y == p->y)
-                        {
-                            flag = false;
-                            break;
-                        }
-                    if (flag)
-                    {
-                        visited.push_back(p);
-                        list = this->adjacent(p->x, p->y);
-                        for (int i = 0; i < (int)list->size(); i++)
-                            queued.push(list->at(i));
-                    }
-                }
-                if (visited.size() >= 4)
-                {
-                    for (int i = 0; i < (int)visited.size(); i++)
-                    {
-                        delete (blkArray[visited.at(i)->y][visited.at(i)->x]);
-                        blkArray[visited.at(i)->y][visited.at(i)->x] = new Block();
-                    }
-                    result = true;
-                }
-            }
-        return result;
-    }
+    Block ***array;
+    int width, height;
 
 public:
-    Canvas(int _width, int _height) : width(_width), height(_height), score(0), updated(false), rd(), rnd(rd()), blockTypeDist(1, 4)
+    Canvas(int w, int h)
     {
-        blkGroup = nullptr;
-        blkArray = new Block **[height];
+        width = w;
+        height = h;
+        array = new Block **[height];
         for (int y = 0; y < height; y++)
         {
-            blkArray[y] = new Block *[width];
+            array[y] = new Block *[width];
             for (int x = 0; x < width; x++)
-                blkArray[y][x] = new Block();
+                array[y][x] = new Block();
         }
     }
-    void update(void)
+    Block *get(int x, int y) { return array[y][x]; }
+    void put(int x, int y, Block *blk) { array[y][x] = blk; }
+    void remove(int x, int y) { delete static_cast<Block *>(array[y][x]); }
+    void swap(int x1, int y1, int x2, int y2)
     {
-        gravity();
-        if (!updated)
-        {
-            while (collide())
-            {
-                score++;
-                while (true)
-                {
-                    updated = false;
-                    gravity();
-                    if (updated)
-                        blkGroup->update();
-                    else
-                        break;
-                }
-            }
-            create();
-        }
+        Block *blk = array[y1][x1];
+        array[y1][x1] = array[y2][x2];
+        array[y2][x2] = blk;
+        blk = nullptr;
     }
-    bool isUpdated(void) { return this->updated; }
-    void draw(void)
-    {
-        std::cout << "Score:\t" << score << std::endl;
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-                std::cout << blkArray[y][x]->toString() << '\t';
-            std::cout << std::endl;
-        }
-    }
-    void gravity(void)
-    {
-        updated = false;
-        for (int y = height - 1; y >= 0; y--)
-            for (int x = 0; x < width; x++)
-                if (blkArray[y][x]->getType() != Block::Type::Blank)
-                    if (isMovable(x, y, 0, 1))
-                    {
-                        delete (blkArray[y + 1][x]);
-                        blkArray[y + 1][x] = blkArray[y][x];
-                        blkArray[y][x] = new Block();
-                        updated = true;
-                    }
-        if (updated)
-            blkGroup->update();
-    }
-    bool move(int dx, int dy)
-    {
-        if (blkGroup == nullptr)
-            return false;
-        bool flag = blkGroup->move(dx, dy);
-        return flag;
-    }
-    bool rotate(int degree)
-    {
-        if (blkGroup == nullptr)
-            return false;
-        while (degree < 0)
-            degree = degree + 360;
-        return blkGroup->rotate(degree);
-    }
-    const int getWidth(void) { return this->width; }
-    const int getHeight(void) { return this->height; }
 };
 
 #endif // CANVAS_HPP

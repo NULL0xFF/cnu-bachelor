@@ -1,19 +1,18 @@
+#include <unistd.h>
 #include <iostream>
-#include <stdexcept>
-#include "lib/os.h"
-#include "puyo.hpp"
+#include "visual.hpp"
 
-int main(int argc, char *argv[])
+int main(void)
 {
-    try
+    Visual v(10, 10);
+    while (true)
     {
-        Puyo p(5, 12);
-        p.start();
-        while (p.status())
-            SLEEP(1); // Pulling the game status every 1 second
+        if(!v.update())
+            break;
+        v.draw();
+        v.move(-1,0);
+        sleep(1);
     }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+
+    return 0;
 }
