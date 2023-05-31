@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/2018-computer_programming_1/2018-computer_programming_1.iml" filepath="$PROJECT_DIR$/2018-computer_programming_1/2018-computer_programming_1.iml" />
       <module fileurl="file://$PROJECT_DIR$/2018-computer_programming_2/2018-computer_programming_2.iml" filepath="$PROJECT_DIR$/2018-computer_programming_2/2018-computer_programming_2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/2019-algorithm/2019-algorithm.iml" filepath="$PROJECT_DIR$/2019-algorithm/2019-algorithm.iml" />
       <module fileurl="file://$PROJECT_DIR$/2019-data_structure/2019-data_structure.iml" filepath="$PROJECT_DIR$/2019-data_structure/2019-data_structure.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/cnu-bachelor.iml" filepath="$PROJECT_DIR$/.idea/cnu-bachelor.iml" />
     </modules>

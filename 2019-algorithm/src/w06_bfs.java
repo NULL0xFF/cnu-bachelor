@@ -38,13 +38,12 @@ public class w06_bfs {
 			if (!visitedBFS.isEmpty())
 				builder.append(" ");
 		}
-		System.out.printf("%s", builder.toString());
+		System.out.printf("%s", builder);
 
 		// Finalize
 		inputStream.close();
-		return;
 
-	}
+  }
 
 	private static List<String> bfs(HashMap<String, ArrayList<String>> graph, String nodeStart) {
 		List<String> visited = new ArrayList<String>();

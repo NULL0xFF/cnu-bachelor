@@ -79,7 +79,7 @@ public class w05_quick_sort {
 		stringBuilder.append(listIterator.next());
 		while (listIterator.hasNext())
 			stringBuilder.append(" " + listIterator.next());
-		System.out.println(stringBuilder.toString());
+		System.out.println(stringBuilder);
 
 		// Finalize
 		inputStreamScanner.close();

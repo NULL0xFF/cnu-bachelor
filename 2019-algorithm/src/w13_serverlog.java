@@ -55,7 +55,6 @@ public class w13_serverlog {
 		System.out.println(outputString);
 
 		// End of program
-		return;
-	}
+  }
 
 }

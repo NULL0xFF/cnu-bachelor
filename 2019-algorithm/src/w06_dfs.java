@@ -40,13 +40,12 @@ public class w06_dfs {
 			if (!visitedDFS.isEmpty())
 				builder.append(" ");
 		}
-		System.out.printf("%s", builder.toString());
+		System.out.printf("%s", builder);
 
 		// Finalize
 		inputStream.close();
-		return;
 
-	}
+  }
 
 	private static List<String> dfs(HashMap<String, ArrayList<String>> graph, String nodeStart) {
 		List<String> visited = new ArrayList<String>();

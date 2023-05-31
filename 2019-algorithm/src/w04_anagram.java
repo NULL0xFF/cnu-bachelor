@@ -6,8 +6,8 @@ public class w04_anagram {
 	public static void main(String[] args) {
 		// Initialize
 		Scanner inputStream = new Scanner(System.in);
-		String s1 = new String();
-		String s2 = new String();
+		String s1 = "";
+		String s2 = "";
 
 		// Input
 		s1 = inputStream.next();

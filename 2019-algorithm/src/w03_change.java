@@ -1,9 +1,11 @@
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class w12_1_change {
+public class w03_change {
 
-	private static HashMap<Integer, Integer> cache = new HashMap<Integer, Integer>();
+	private static final HashMap<String, BigInteger> cache = new HashMap<String, BigInteger>();
 
 	public static void main(String[] args) {
 		// Initialize
@@ -25,29 +27,30 @@ public class w12_1_change {
 		inputStream.close();
 	}
 
-	public static int pos(int[] coins, int count, int change) {
+	public static BigInteger pos(int[] coins, int count, int change) {
 		// Escape
 		if (change == 0)
-			return 0;
+			return BigInteger.ZERO;
 
 		// Cache Check
-		if (cache.containsKey(change))
-			return cache.get(change);
+		BigInteger cachedNumber = cache.get(String.format("%s | %d | %d", Arrays.toString(coins), count, change));
+		if (cachedNumber != null)
+			return cachedNumber;
 
 		// Initialize
-		int minimum = Integer.MAX_VALUE;
+		BigInteger minimum = new BigInteger(Integer.toString(Integer.MAX_VALUE));
 
 		// Algorithm
 		for (int index = 0; index < count; index++)
 			if (coins[index] <= change) {
-				int subMinimum = pos(coins, count, change - coins[index]);
-				subMinimum++;
-				if (subMinimum < minimum)
+				BigInteger subMinimum = pos(coins, count, change - coins[index]);
+				subMinimum = subMinimum.add(BigInteger.ONE);
+				if (subMinimum.compareTo(minimum) == -1)
 					minimum = subMinimum;
 			}
 
 		// Save Cache
-		cache.put(change, minimum);
+		cache.put(String.format("%s | %d | %d", Arrays.toString(coins), count, change), minimum);
 
 		// Return
 		return minimum;

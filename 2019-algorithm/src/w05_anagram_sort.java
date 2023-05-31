@@ -17,8 +17,7 @@ public class w05_anagram_sort {
 		String[] inputStringArray = inputString.split(" ");
 
 		// Processing
-		for (int i = 0; i < inputStringArray.length; i++)
-			list.add(inputStringArray[i]);
+    Collections.addAll(list, inputStringArray);
 		Collections.sort(list);
 
 		// Algorithm
@@ -32,13 +31,13 @@ public class w05_anagram_sort {
 		while (true) {
 			flag = false;
 			for (i = 0; i < anagramMap.size(); i++) {
-				if ((anagram(anagramMap.get(i).get(0), iteratedString)) == true) {
+				if ((anagram(anagramMap.get(i).get(0), iteratedString))) {
 					anagramMap.get(i).add(iteratedString);
 					flag = true;
 					break;
 				}
 			}
-			if (flag == false) {
+			if (!flag) {
 				tempList = new ArrayList<String>();
 				tempList.add(iteratedString);
 				anagramMap.put(i, tempList);
@@ -57,7 +56,7 @@ public class w05_anagram_sort {
 			}
 			stringBuilder.append("\n");
 		}
-		System.out.printf("%s\n", stringBuilder.toString());
+		System.out.printf("%s\n", stringBuilder);
 
 		// Finalize
 		inputStream.close();

@@ -2,9 +2,9 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Scanner;
 
-class RecursiveStair {
+class CachedStair {
 
-	private HashMap<String, BigInteger> cache = new HashMap<String, BigInteger>();
+	private final HashMap<String, BigInteger> cache = new HashMap<String, BigInteger>();
 
 	public BigInteger Jump(int n, int m) {
 		// Exception
@@ -41,7 +41,7 @@ class RecursiveStair {
 	}
 }
 
-public class w02_stair {
+public class w03_stair {
 
 	public static void main(String[] args) {
 		// Initialize
@@ -53,7 +53,7 @@ public class w02_stair {
 		m = inputStream.nextInt();
 
 		// Output
-		System.out.printf("%s\n", new RecursiveStair().Jump(n, m).toString());
+		System.out.printf("%s\n", new CachedStair().Jump(n, m).toString());
 
 		// Finalize
 		inputStream.close();

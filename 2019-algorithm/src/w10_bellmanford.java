@@ -74,7 +74,7 @@ public class w10_bellmanford {
 		for (String u : graph.keySet()) {
 			for (String v : graph.get(u).keySet()) {
 				if (dist.get(v) > dist.get(u) + graph.get(u).get(v)) {
-					System.out.printf("Negative Cycle!");
+					System.out.print("Negative Cycle!");
 					inputStream.close();
 					return;
 				}
@@ -98,14 +98,13 @@ public class w10_bellmanford {
 		}
 
 		// Output
-		System.out.printf("%s\n", builder.toString());
+		System.out.printf("%s\n", builder);
 		System.out.printf("%d\n", dist.get(destination));
 
 		// Finalize
 		inputStream.close();
 
 		// Return Main
-		return;
-	}
+  }
 
 }

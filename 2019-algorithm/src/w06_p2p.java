@@ -39,8 +39,8 @@ public class w06_p2p {
 
 	private static int longestLength(HashMap<String, ArrayList<String>> graph, String nodeStart) {
 		class Cache {
-			String value;
-			int index;
+			final String value;
+			final int index;
 
 			Cache(String V, int I) {
 				this.value = V;

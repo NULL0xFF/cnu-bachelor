@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class w13_mentor {
 
-	private static int NUMBER_OF_MENTOR = 3;
+	private static final int NUMBER_OF_MENTOR = 3;
 	public static void main(String[] args) {
 		// Initialize
 		Scanner inputStreamScanner = new Scanner(System.in);
@@ -115,8 +115,7 @@ public class w13_mentor {
 
 		// Finalize
 		inputStreamScanner.close();
-		return;
-	}
+  }
 
 	private static boolean bfs(HashMap<String, HashMap<String, Integer>> graph,
 			HashMap<String, HashMap<String, Integer>> flowMap, String startNode, String endNode,
@@ -148,10 +147,7 @@ public class w13_mentor {
 				}
 			}
 		}
-		if (parentMap.get(endNode) != null) {
-			return true;
-		}
-		return false;
-	}
+    return parentMap.get(endNode) != null;
+  }
 
 }

@@ -89,7 +89,6 @@ public class w11_flow {
 
 		// Finalize
 		inputStreamScanner.close();
-		return;
 	}
 
 	private static boolean bfs(HashMap<String, HashMap<String, Integer>> graph,
@@ -122,10 +121,7 @@ public class w11_flow {
 				}
 			}
 		}
-		if (parentMap.get(endNode) != null) {
-			return true;
-		}
-		return false;
+		return parentMap.get(endNode) != null;
 	}
 
 }

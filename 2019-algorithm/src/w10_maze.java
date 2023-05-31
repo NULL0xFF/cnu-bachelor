@@ -17,14 +17,11 @@ public class w10_maze {
 
 		@Override
 		public boolean equals(Object o) {
-			if (!(o instanceof Node))
+			if (!(o instanceof Node other))
 				return false;
-			Node other = (Node) o;
 			if (this.x != other.x)
 				return false;
-			if (this.y != other.y)
-				return false;
-			return true;
+			return this.y == other.y;
 		}
 	}
 
@@ -121,7 +118,7 @@ public class w10_maze {
 								break;
 							}
 					}
-					if (flag == true)
+					if (flag)
 						break;
 				}
 			}
@@ -209,7 +206,7 @@ public class w10_maze {
 				if ((y + 1) != height)
 					stringBuilder.append('\n');
 			}
-			System.out.printf("%s\n", stringBuilder.toString());
+			System.out.printf("%s\n", stringBuilder);
 			return;
 		}
 		StringBuilder stringBuilder = new StringBuilder();
@@ -219,7 +216,7 @@ public class w10_maze {
 			if ((y + 1) != height)
 				stringBuilder.append('\n');
 		}
-		System.out.printf("%s\n", stringBuilder.toString());
+		System.out.printf("%s\n", stringBuilder);
 	}
 
 }

@@ -30,7 +30,7 @@ public class w05_sort {
 				break;
 			iteratedString = listIterator.next();
 		}
-		System.out.printf("%s\n", resultBuilder.toString());
+		System.out.printf("%s\n", resultBuilder);
 
 		// Finalize
 		inputStream.close();

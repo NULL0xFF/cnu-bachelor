@@ -9,7 +9,7 @@ public class w04_kakao {
 	public static void main(String[] args) {
 		// Initialize
 		Scanner inputStream = new Scanner(System.in);
-		String s = new String();
+		String s = "";
 		ArrayList<String> scoreToken;
 
 		// Input

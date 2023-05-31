@@ -17,14 +17,11 @@ public class w11_money {
 
 		@Override
 		public boolean equals(Object o) {
-			if (!(o instanceof Node))
+			if (!(o instanceof Node other))
 				return false;
-			Node other = (Node) o;
 			if (this.x != other.x)
 				return false;
-			if (this.y != other.y)
-				return false;
-			return true;
+			return this.y == other.y;
 		}
 	}
 
@@ -67,7 +64,7 @@ public class w11_money {
 				money = money - 9;
 				break;
 			case '0':
-				money = money - 0;
+				money = money;
 				break;
 			}
 			map[current.y][current.x] = 'P';
@@ -173,7 +170,7 @@ public class w11_money {
 								break;
 							}
 					}
-					if (flag == true)
+					if (flag)
 						break;
 				}
 			}
@@ -255,7 +252,7 @@ public class w11_money {
 		try {
 			money = A_Star(start, goal, money);
 		} catch (RuntimeException e) {
-			System.out.printf("Not enough money!\n");
+			System.out.print("Not enough money!\n");
 			return;
 		}
 		System.out.printf("%d\n", money);

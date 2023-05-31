@@ -20,10 +20,10 @@ public class w01_controlflow {
 		// Output
 		if (i % 2 == 0)
 			for (int loop = 0; loop < i; loop++)
-				System.out.printf("Hello, Contest!\n");
+				System.out.print("Hello, Contest!\n");
 		else
 			for (int loop = 0; loop < i + 1; loop++)
-				System.out.printf("Hello, Algorithm!\n");
+				System.out.print("Hello, Algorithm!\n");
 
 		// Finalize
 		inputStream.close();
